@@ -1,0 +1,39 @@
+<div class="container" fxLayout="column" fxLayoutGap="20px">
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+        <h2>Patient Registry</h2>
+        <button mat-raised-button color="primary" (click)="openPatientDialog()">New Patient</button>
+    </div>
+
+    <table mat-table [dataSource]="store.patients()" class="mat-elevation-z8">
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let patient"> {{patient.firstName}} {{patient.lastName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="dateOfBirth">
+            <th mat-header-cell *matHeaderCellDef> Date of Birth </th>
+            <td mat-cell *matCellDef="let patient"> {{patient.dateOfBirth | date}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="phone">
+            <th mat-header-cell *matHeaderCellDef> Phone </th>
+            <td mat-cell *matCellDef="let patient"> {{patient.phone}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let patient">
+                <button mat-icon-button color="primary" (click)="openPatientDialog(patient)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="deletePatient(patient.id)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-progress-bar mode="indeterminate" *ngIf="store.isLoading()"></mat-progress-bar>
+</div>

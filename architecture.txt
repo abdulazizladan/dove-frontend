@@ -1,0 +1,139 @@
+1. Backend Overview
+The backend is built with NestJS, using TypeORM for database interactions and Swagger for API documentation. It features a modular architecture handling authentication, user management, organizational structure, patient records, and laboratory test operations.
+
+Modules & API Endpoints
+Module	Controller	Base URL	Endpoints
+Auth	
+AuthController
+/auth	POST /login - User login
+POST /register - User registration
+Users	
+UsersController
+/users	GET / - List users
+POST / - Create user
+GET /:id - Get user details
+PATCH /:id - Update user
+DELETE /:id - Remove user
+Organization	OrganizationController	/organization	GET / - List organizations
+POST / - Register organization
+GET /:id - Details
+PATCH /:id - Update
+DELETE /:id - Remove
+Structure	DepartmentController	/departments	GET / - List departments
+POST / - Create department
+GET /:id - Details
+PATCH /:id - Update
+DELETE /:id - Remove
+DesignationController	/designations	GET / - List designations
+POST / - Create designation
+GET /:id - Details
+PATCH /:id - Update
+DELETE /:id - Remove
+Patients	PatientsController	/patients	GET / - List patients
+POST / - Register patient
+GET /:id - Details
+PATCH /:id - Update
+DELETE /:id - Remove
+Lab Tests	LabTestsController	/tests	GET / - List test catalog
+POST / - Add test
+GET /:id - Details
+PATCH /:id - Update
+DELETE /:id - Remove
+Test Requests	TestRequestsController	/test-requests	GET / - List requests
+POST / - Create request
+POST /:id/payment - Add payment
+GET /:id - Details
+PATCH /:id - Update
+DELETE /:id - Remove
+Activity Log	ActivityLogController	/activity-log	GET / - View system logs
+2. Proposed Angular Architecture
+The frontend will be a modular Angular application using Angular Material for UI components, Flex Layout (or modern CSS Grid/Flexbox) for layout, and NgRx Signals for reactive state management.
+
+Directory Structure
+src/
+├── app/
+│   ├── core/               # Singleton services, guards, interceptors
+│   ├── shared/             # Reusable UI components, pipes, directives
+│   ├── layout/             # Main layout, sidebar, header
+│   ├── features/           # Lazy-loaded feature modules
+│   │   ├── auth/
+│   │   ├── dashboard/
+│   │   ├── users/
+│   │   ├── structure/
+│   │   ├── patients/
+│   │   ├── inventory/      # Matches Lab Tests
+│   │   └── requests/       # Matches Test Requests
+│   └── store/              # Global state (if not using feature stores)
+Core Module
+Singleton services loaded once in AppModule.
+
+Services: AuthService (Http calls to /auth), ApiService (Generic HTTP wrapper), ConfigService, NotificationService (SnackBar wrapper).
+Guards: AuthGuard (Protect routes), RoleGuard (Admin/Staff checks).
+Interceptors: JwtInterceptor (Attach token to requests), ErrorInterceptor (Global error handling).
+Shared Module
+Imported by feature modules. Contains dumb components.
+
+Material Module: Exports all @angular/material modules (Button, Input, Table, Icon, Sidenav, Card).
+Components:
+ConfirmDialogComponent: Generic confirmation modal.
+DatatableComponent: Reusable table with pagination/sorting.
+LoadingSpinnerComponent: Overlay spinner.
+PageHeaderComponent: Standardized page title and actions.
+Feature Modules (Lazy Loaded) & Components
+1. AuthModule
+Path: /auth
+Smart Components:
+LoginComponent: Form for email/password.
+RegisterComponent: Registration form.
+2. DashboardModule
+Path: /dashboard
+components:
+AdminDashboardComponent: Stats for admins.
+StaffDashboardComponent: Quick actions for staff.
+3. UsersModule
+Path: /users
+Smart Components:
+UserListComponent: Displays users table.
+UserDetailComponent: View/Edit user profile.
+4. StructureModule
+Path: /structure
+Smart Components:
+DepartmentManagerComponent: Tabs for Departments/Designations.
+DepartmentListComponent
+DesignationListComponent
+5. PatientsModule
+Path: /patients
+Smart Components:
+PatientListComponent: KPIs + Table.
+PatientRegistrationComponent: Stepper form for intake.
+PatientHistoryComponent: View past visits/requests.
+6. InventoryModule (Lab Tests)
+Path: /inventory
+Smart Components:
+TestCatalogComponent: List of available tests/prices.
+TestEditorComponent: Dialog/Page to add/edit test.
+7. RequestsModule (Test Requests)
+Path: /requests
+Smart Components:
+RequestListComponent: Filterable list of requests.
+NewRequestComponent: Select patient + tests.
+PaymentModalComponent: Dialog to record payment.
+State Management (NgRx Signals)
+We will use SignalStore for lightweight, reactive state management.
+
+AuthStore:
+
+State: { user: User | null, token: string | null, isAuthenticated: boolean }
+Methods: login(credentials), logout().
+UsersStore:
+
+State: { users: User[], loading: boolean, filter: string }
+Computed: filteredUsers().
+CatalogStore (Lab Tests):
+
+State: { tests: Test[], loading: boolean }
+Methods: loadTests(), addTest().
+RequestsStore:
+
+State: { requests: TestRequest[], activeRequest: TestRequest | null }
+Methods: loadRequests(), createRequest(), addPayment().

@@ -1,0 +1,46 @@
+<h2 mat-dialog-title>Values New Test Request</h2>
+<mat-dialog-content>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" fxLayout="column" fxLayoutGap="16px">
+
+        <mat-form-field appearance="outline">
+            <mat-label>Select Patient</mat-label>
+            <mat-select formControlName="patientId">
+                <mat-option *ngFor="let patient of patients" [value]="patient.id">
+                    {{patient.firstName}} {{patient.lastName}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('patientId')?.hasError('required')">Patient is required</mat-error>
+        </mat-form-field>
+
+        <div fxLayout="row" fxLayoutGap="16px">
+            <mat-form-field appearance="outline" fxFlex>
+                <mat-label>Test Type</mat-label>
+                <mat-select formControlName="testType">
+                    <mat-option *ngFor="let type of testTypes" [value]="type">
+                        {{type}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="form.get('testType')?.hasError('required')">Test Type is required</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" fxFlex>
+                <mat-label>Priority</mat-label>
+                <mat-select formControlName="priority">
+                    <mat-option *ngFor="let p of priorities" [value]="p">
+                        {{p}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Clinical Notes</mat-label>
+            <textarea matInput formControlName="notes" rows="3"></textarea>
+        </mat-form-field>
+
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="form.invalid">Create Request</button>
+</mat-dialog-actions>

@@ -1,0 +1,49 @@
+import { Component, inject, OnInit } from '@angular/core';
+import { UserService } from '../../../../core/services/user.service';
+import { User } from '../../../../core/models/user.model';
+import { MatDialog } from '@angular/material/dialog';
+import { UserFormComponent } from '../user-form/user-form.component';
+import { MatTableDataSource } from '@angular/material/table';
+
+@Component({
+    selector: 'app-user-list',
+    templateUrl: './user-list.component.html',
+    styleUrl: './user-list.component.scss',
+    standalone: false
+})
+export class UserListComponent implements OnInit {
+    private userService = inject(UserService);
+    private dialog = inject(MatDialog);
+
+    displayedColumns: string[] = ['username', 'email', 'role', 'actions'];
+    dataSource = new MatTableDataSource<User>([]);
+
+    ngOnInit(): void {
+        this.loadUsers();
+    }
+
+    loadUsers(): void {
+        this.userService.getUsers().subscribe(users => {
+            this.dataSource.data = users;
+        });
+    }
+
+    openUserDialog(user?: User): void {
+        const dialogRef = this.dialog.open(UserFormComponent, {
+            width: '400px',
+            data: user
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this.loadUsers();
+            }
+        });
+    }
+
+    deleteUser(id: string): void {
+        if (confirm('Are you sure you want to delete this user?')) {
+            this.userService.deleteUser(id).subscribe(() => this.loadUsers());
+        }
+    }
+}

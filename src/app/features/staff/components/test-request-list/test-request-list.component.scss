@@ -1,0 +1,29 @@
+.container {
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+}
+
+.priority-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.low {
+    background-color: #e0f2f1;
+    color: #00695c;
+}
+
+.medium {
+    background-color: #fff3e0;
+    color: #ef6c00;
+}
+
+.high {
+    background-color: #ffebee;
+    color: #c62828;
+}

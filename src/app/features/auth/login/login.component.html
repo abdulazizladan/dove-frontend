@@ -1,0 +1,32 @@
+<div class="login-container" fxLayout="row" fxLayoutAlign="center center">
+    <mat-card class="login-card">
+        <mat-card-header>
+            <mat-card-title>Login to Dove</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" fxLayout="column" fxLayoutGap="16px">
+                <mat-form-field appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email" type="email" placeholder="Enter your email">
+                    <mat-error *ngIf="loginForm.get('email')?.hasError('required')">Email is required</mat-error>
+                    <mat-error *ngIf="loginForm.get('email')?.hasError('email')">Invalid email format</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <input matInput formControlName="password" type="password" placeholder="Enter your password">
+                    <mat-error *ngIf="loginForm.get('password')?.hasError('required')">Password is required</mat-error>
+                </mat-form-field>
+
+                <div *ngIf="store.error()" class="error-message">
+                    {{ store.error() }}
+                </div>
+
+                <button mat-flat-button color="primary" type="submit"
+                    [disabled]="loginForm.invalid || store.isLoading()">
+                    {{ store.isLoading() ? 'Logging in...' : 'Login' }}
+                </button>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>
