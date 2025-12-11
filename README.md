@@ -1,59 +1,76 @@
-# Dove
+# Dove Frontend Application
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.5.
+Dove is a modern Angular application designed for managing organizational structures, patient records, and laboratory operations. It is built with a modular architecture enabling scalability and maintainability.
 
-## Development server
+## 🛠 Technical Stack
 
-To start a local development server, run:
+- **Framework**: Angular 20
+- **State Management**: @ngrx/signals (SignalStore)
+- **UI Component Library**: Angular Material
+- **CSS Preprocessor**: SCSS
+- **Authentication**: JWT (JSON Web Tokens) with `jwt-decode` for role-based access control.
+- **Environment Management**: Environment files for configuration (e.g., API Base URL).
+
+## 🏗 Architecture & Directory Structure
+
+The application follows a feature-based modular architecture located in `src/app/features`.
+
+### Core Directory (`src/app/core`)
+Contains singleton services, models, guards, and interceptors.
+- **AuthService**: Handles login, logout, and token management.
+- **Interceptors**: `JwtInterceptor` attaches the bearer token to outgoing requests.
+- **Guards**: `AuthGuard` and `RoleGuard` (planned) protect routes.
+
+### Features Directory (`src/app/features`)
+Contains lazy-loaded feature modules.
+- **Auth**: Login and registration logic.
+- **Admin**: Dashboard and management tools for administrators.
+- **Staff**: Operational tools for staff members.
+
+### Shared Directory (`src/app/shared`)
+Contains reusable UI components, pipes, and directives used across multiple features.
+
+## 🔐 Authentication & Security
+
+- **Login Flow**: Users authenticate via email/password.
+- **Token Handling**:
+  - The backend returns an `access_token`.
+  - The frontend decodes this token using `jwt-decode` to extract user details (ID, Email, Role).
+  - The token is stored in local storage using `ngx-webstorage`.
+- **Role-Based Redirect**: Upon successful login, users are automatically redirected to their respective dashboards (`/admin` or `/staff`) based on the `role` claim in the JWT.
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js (Latest LTS recommended)
+- Angular CLI (`npm install -g @angular/cli`)
+
+### Installation
+
+```bash
+npm install
+```
+
+### Running the Application
 
 ```bash
 ng serve
 ```
+Navigate to `http://localhost:4200/`.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### strict CommonJS Warning
+We use `jwt-decode` which is a CommonJS dependency. This is explicitly allowed in `angular.json` to suppress build warnings.
 
-## Code scaffolding
+## 🧪 Testing
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
+### Unit Tests
 ```bash
 ng test
 ```
 
-## Running end-to-end tests
+### End-to-End Tests
+(Configuration TBD)
 
-For end-to-end (e2e) testing, run:
+## 📦 Build
 
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.

@@ -20,13 +20,24 @@ export class AuthService {
 
     login(credentials: { email: string; password: string }): Observable<any> {
         this.store.setLoading(true);
-        return this.http.post<{ user: User; accessToken: string }>(`${this.apiUrl}/auth/login`, credentials).pipe(
+        // Expecting { access_token: string } based on user feedback
+        return this.http.post<{ access_token: string }>(`${this.apiUrl}/auth/login`, credentials).pipe(
             tap(response => {
-                this.storage.store('authenticationToken', response.accessToken);
-                this.store.loginSuccess(response.user, response.accessToken);
+                const token = response.access_token;
+                this.storage.store('authenticationToken', token);
 
-                const decodedToken: any = jwtDecode(response.accessToken);
+                const decodedToken: any = jwtDecode(token);
                 const role = decodedToken.role;
+
+                // Construct a user object from the token since the API might not return directly
+                const user: User = {
+                    id: decodedToken.sub,
+                    email: decodedToken.email,
+                    username: decodedToken.email, // Use email as username fallback
+                    role: role
+                };
+
+                this.store.loginSuccess(user, token);
 
                 if (role === UserRole.ADMIN) {
                     this.router.navigate(['/admin']);
