@@ -36,4 +36,8 @@ export class OrganizationService {
     getDepartments(): Observable<Department[]> {
         return this.http.get<Department[]>(`${environment.baseUrl}/departments`);
     }
+
+    addDepartment(department: { name: string; organizationId: string }): Observable<Department> {
+        return this.http.post<Department>(`${environment.baseUrl}/departments`, department);
+    }
 }

@@ -49,6 +49,7 @@ export class TestRequestFormComponent implements OnInit {
             const selectedPatient = this.patients.find(p => p.id === formValue.patientId);
 
             const requestData = {
+                patientId: formValue.patientId,
                 patient_id: formValue.patientId,
                 testId: formValue.testId, // Reverted to testId as per backend validation error
                 priority: formValue.priority,

@@ -23,6 +23,10 @@ export class RequestService {
         );
     }
 
+    getRequestById(id: string): Observable<TestRequest> {
+        return this.http.get<TestRequest>(`${this.apiUrl}/${id}`);
+    }
+
     createRequest(request: Partial<TestRequest>): Observable<TestRequest> {
         this.store.setLoading(true);
         return this.http.post<TestRequest>(this.apiUrl, request).pipe(

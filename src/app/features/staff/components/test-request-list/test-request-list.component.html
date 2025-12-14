@@ -7,7 +7,7 @@
     <table mat-table [dataSource]="store.requests()" class="mat-elevation-z8">
         <ng-container matColumnDef="patientName">
             <th mat-header-cell *matHeaderCellDef> Patient </th>
-            <td mat-cell *matCellDef="let req"> {{req.patientName || 'N/A'}} </td>
+            <td mat-cell *matCellDef="let req"> {{req.patient?.name || 'N/A'}} </td>
         </ng-container>
 
         <ng-container matColumnDef="testName">
@@ -43,6 +43,10 @@
         <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef> Actions </th>
             <td mat-cell *matCellDef="let req">
+                <button mat-icon-button color="primary" [routerLink]="['../request-details', req.id]"
+                    matTooltip="View Details">
+                    <mat-icon>visibility</mat-icon>
+                </button>
                 <button mat-button color="accent" *ngIf="req.status === 'PENDING'"
                     (click)="updateStatus(req.id, 'IN_PROGRESS')">Start</button>
                 <button mat-button color="primary" *ngIf="req.status === 'IN_PROGRESS'"

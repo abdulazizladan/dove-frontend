@@ -35,8 +35,11 @@
 
     <!-- Placeholder for Departments/Designations Management -->
     <br>
-    <h3>Departments</h3>
-    <h3>Departments</h3>
+    <br>
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+        <h3>Departments</h3>
+        <button mat-raised-button color="primary" (click)="openDepartmentDialog()">New Department</button>
+    </div>
 
     <div fxLayout="column" fxLayoutGap="8px">
         <mat-card *ngFor="let dept of departments$ | async" class="department-card"

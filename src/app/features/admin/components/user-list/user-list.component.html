@@ -31,9 +31,11 @@
             <ng-container matColumnDef="isActive">
                 <th mat-header-cell *matHeaderCellDef> Status </th>
                 <td mat-cell *matCellDef="let user">
-                    <span [class.active]="user.isActive" [class.inactive]="!user.isActive">
-                        {{ user.isActive ? 'Active' : 'Inactive' }}
-                    </span>
+                    <mat-slide-toggle color="primary"
+                        [checked]="user.status === 'active' || (user.isActive && !user.status)"
+                        [disabled]="user.role === 'admin'" (change)="toggleStatus(user, $event)">
+                        {{ user.status === 'active' || (user.isActive && !user.status) ? 'Active' : 'Suspended' }}
+                    </mat-slide-toggle>
                 </td>
             </ng-container>
 

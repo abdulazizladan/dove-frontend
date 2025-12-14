@@ -2,10 +2,11 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
 import { Organization, Department } from '../../../../core/models/organization.model';
-// Duplicate import removed
 import { OrganizationService } from '../../../../core/organization/org.service';
 import { OrgStore } from '../../../../core/organization/org-store';
+import { DepartmentFormComponent } from '../department-form/department-form.component';
 
 @Component({
     selector: 'app-organization',
@@ -17,6 +18,7 @@ export class OrganizationComponent implements OnInit {
     private fb = inject(FormBuilder);
     private orgService = inject(OrganizationService);
     private router = inject(Router);
+    private dialog = inject(MatDialog);
     protected store = inject(OrgStore);
 
     departments$: Observable<Department[]> | null = null;
@@ -40,5 +42,21 @@ export class OrganizationComponent implements OnInit {
 
     navigateToDepartment(id: string): void {
         this.router.navigate(['admin', 'organization', 'departments', id]);
+    }
+
+    openDepartmentDialog(): void {
+        const org = this.store.organization();
+        if (!org) return;
+
+        const dialogRef = this.dialog.open(DepartmentFormComponent, {
+            width: '400px',
+            data: { organizationId: org.id }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this.departments$ = this.orgService.getDepartments();
+            }
+        });
     }
 }

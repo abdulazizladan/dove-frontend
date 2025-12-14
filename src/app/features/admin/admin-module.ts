@@ -7,6 +7,7 @@ import { UserFormComponent } from './components/user-form/user-form.component';
 import { OrganizationComponent } from './components/organization/organization.component';
 import { ActivityLogComponent } from './components/activity-log/activity-log.component';
 import { DepartmentDetailsComponent } from './components/department-details/department-details.component';
+import { DepartmentFormComponent } from './components/department-form/department-form.component';
 import { SharedModule } from '../../shared/shared-module';
 import { LayoutModule } from '../../layout/layout-module';
 
@@ -17,7 +18,8 @@ import { LayoutModule } from '../../layout/layout-module';
     UserFormComponent,
     OrganizationComponent,
     ActivityLogComponent,
-    DepartmentDetailsComponent
+    DepartmentDetailsComponent,
+    DepartmentFormComponent
   ],
   imports: [
     CommonModule,

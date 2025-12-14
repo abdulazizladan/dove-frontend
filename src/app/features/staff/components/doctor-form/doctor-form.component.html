@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>Add New Doctor</h2>
+<mat-dialog-content [formGroup]="form" class="flex flex-col gap-4 min-w-[400px]">
+    <div class="flex gap-4">
+        <mat-form-field appearance="outline" class="flex-1">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="first_name">
+            <mat-error *ngIf="form.get('first_name')?.hasError('required')">First name is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="flex-1">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="last_name">
+            <mat-error *ngIf="form.get('last_name')?.hasError('required')">Last name is required</mat-error>
+        </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email">
+        <mat-error *ngIf="form.get('email')?.hasError('required')">Email is required</mat-error>
+        <mat-error *ngIf="form.get('email')?.hasError('email')">Invalid email</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Phone</mat-label>
+        <input matInput formControlName="phone">
+        <mat-error *ngIf="form.get('phone')?.hasError('required')">Phone is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Hospital</mat-label>
+        <mat-select formControlName="hospitalId">
+            <mat-option *ngFor="let hospital of hospitals$ | async" [value]="hospital.id">
+                {{ hospital.name }}
+            </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('hospitalId')?.hasError('required')">Hospital is required</mat-error>
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="primary" (click)="submit()" [disabled]="form.invalid">Create</button>
+</mat-dialog-actions>

@@ -1,6 +1,7 @@
 export enum UserRole {
     ADMIN = 'admin',
-    STAFF = 'staff'
+    STAFF = 'staff',
+    DOCTOR = 'doctor'
 }
 
 export interface User {
@@ -15,6 +16,7 @@ export interface User {
     updated_at: string;
     password?: string;
     designationId?: string;
+    status: 'active' | 'suspended';
 }
 
 export interface AuthState {

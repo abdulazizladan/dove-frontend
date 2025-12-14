@@ -1,0 +1,51 @@
+<div class="p-6">
+    <button mat-button color="primary" routerLink="../../doctors" class="mb-4">
+        <mat-icon>arrow_back</mat-icon> Back to Doctors
+    </button>
+
+    <div *ngIf="doctor$ | async as doctor; else loading">
+        <mat-card class="max-w-3xl mx-auto">
+            <mat-card-header class="mb-4">
+                <div mat-card-avatar
+                    class="bg-primary/10 text-primary flex items-center justify-center rounded-full w-16 h-16 text-2xl">
+                    <mat-icon class="scale-150">medical_services</mat-icon>
+                </div>
+                <div class="ml-4">
+                    <mat-card-title class="text-2xl">{{ doctor.first_name }} {{ doctor.last_name | uppercase
+                        }}</mat-card-title>
+                    <mat-card-subtitle class="text-lg">{{ doctor.email }}</mat-card-subtitle>
+                </div>
+            </mat-card-header>
+
+            <mat-divider></mat-divider>
+
+            <mat-card-content class="pt-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12">
+                    <div>
+                        <h3 class="text-gray-500 text-sm font-medium uppercase mb-1">Phone</h3>
+                        <p class="font-medium capitalize">{{ doctor.phone }}</p>
+                    </div>
+
+                    <div *ngIf="doctor.hospital">
+                        <h3 class="text-gray-500 text-sm font-medium uppercase mb-1">Hospital</h3>
+                        <p class="font-medium">{{ doctor.hospital.name }}</p>
+                        <p class="text-sm text-gray-500">{{ doctor.hospital.address }}</p>
+                        <p class="text-sm text-gray-500">Contact: {{ doctor.hospital.contact_person }} ({{
+                            doctor.hospital.phone }})</p>
+                    </div>
+
+                    <div>
+                        <h3 class="text-gray-500 text-sm font-medium uppercase mb-1">Added On</h3>
+                        <p class="font-medium">{{ doctor.created_at | date:'mediumDate' }}</p>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <ng-template #loading>
+        <div class="flex justify-center items-center py-20">
+            <mat-spinner diameter="40"></mat-spinner>
+        </div>
+    </ng-template>
+</div>

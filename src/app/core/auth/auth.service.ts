@@ -39,7 +39,8 @@ export class AuthService {
                     role: role,
                     isActive: true, // Default to true if not in token
                     created_at: new Date().toISOString(),
-                    updated_at: new Date().toISOString()
+                    updated_at: new Date().toISOString(),
+                    status: 'active'
                 };
 
                 this.store.loginSuccess(user, token);
