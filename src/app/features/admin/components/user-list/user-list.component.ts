@@ -15,8 +15,13 @@ export class UserListComponent implements OnInit {
     private userService = inject(UserService);
     private dialog = inject(MatDialog);
 
-    displayedColumns: string[] = ['username', 'email', 'role', 'actions'];
+    displayedColumns: string[] = ['full_name', 'email', 'role', 'isActive', 'created_at', 'actions'];
     dataSource = new MatTableDataSource<User>([]);
+
+    applyFilter(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
 
     ngOnInit(): void {
         this.loadUsers();

@@ -18,12 +18,10 @@ export class PatientFormComponent {
     @Inject(MAT_DIALOG_DATA) public data: Patient | undefined;
 
     form: FormGroup = this.fb.group({
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]],
-        phone: [''],
-        dateOfBirth: [null, Validators.required],
-        address: ['']
+        name: ['', Validators.required],
+        date_of_birth: [null, Validators.required],
+        contact: ['', Validators.required], // Assumed required based on template
+        gender: ['Male', Validators.required]
     });
 
     isEditMode = false;

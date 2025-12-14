@@ -1,31 +1,56 @@
 <div class="container">
     <h2>Organization Settings</h2>
 
-    <mat-card>
-        <mat-card-content>
-            <form [formGroup]="form" (ngSubmit)="onSubmit()" fxLayout="column" fxLayoutGap="16px">
-                <mat-form-field appearance="outline">
-                    <mat-label>Organization Name</mat-label>
-                    <input matInput formControlName="name">
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Address</mat-label>
-                    <textarea matInput formControlName="address" rows="3"></textarea>
-                </mat-form-field>
-
-                <div fxLayout="row" fxLayoutAlign="end">
-                    <button mat-raised-button color="primary" type="submit"
-                        [disabled]="form.invalid || store.isLoading()">
-                        Save Changes
-                    </button>
-                </div>
-            </form>
-        </mat-card-content>
+    <mat-card *ngIf="store.organization() as org; else createForm">
+        <mat-card-header>
+            <mat-card-title>{{ org.name }}</mat-card-title>
+            <mat-card-subtitle>{{ org.address }}</mat-card-subtitle>
+        </mat-card-header>
     </mat-card>
+
+    <ng-template #createForm>
+        <mat-card>
+            <mat-card-content>
+                <form [formGroup]="form" (ngSubmit)="onSubmit()" fxLayout="column" fxLayoutGap="16px">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Organization Name</mat-label>
+                        <input matInput formControlName="name">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Address</mat-label>
+                        <textarea matInput formControlName="address" rows="3"></textarea>
+                    </mat-form-field>
+
+                    <div fxLayout="row" fxLayoutAlign="end">
+                        <button mat-raised-button color="primary" type="submit"
+                            [disabled]="form.invalid || store.isLoading()">
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </ng-template>
 
     <!-- Placeholder for Departments/Designations Management -->
     <br>
     <h3>Departments</h3>
-    <p>Department management UI coming soon...</p>
+    <h3>Departments</h3>
+
+    <div fxLayout="column" fxLayoutGap="8px">
+        <mat-card *ngFor="let dept of departments$ | async" class="department-card"
+            (click)="navigateToDepartment(dept.id)">
+            <mat-card-content>
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <span style="font-weight: 500;">{{ dept.name }}</span>
+                    <mat-icon color="primary">chevron_right</mat-icon>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <div *ngIf="(departments$ | async)?.length === 0">
+        <p>No departments found.</p>
+    </div>
 </div>

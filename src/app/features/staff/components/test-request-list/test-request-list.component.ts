@@ -17,7 +17,7 @@ export class TestRequestListComponent implements OnInit {
     protected store = inject(RequestStore);
     private dialog = inject(MatDialog);
 
-    displayedColumns: string[] = ['patientName', 'testType', 'priority', 'status', 'createdAt', 'actions'];
+    displayedColumns: string[] = ['patientName', 'testName', 'price', 'discount', 'outstanding_balance', 'status', 'createdAt', 'actions'];
     dataSource = new MatTableDataSource<TestRequest>([]);
 
     ngOnInit(): void {

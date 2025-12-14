@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AuthStore } from './auth-store';
 import { User, UserRole } from '../models/user.model';
 import { jwtDecode } from 'jwt-decode';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -16,7 +17,7 @@ export class AuthService {
     private store = inject(AuthStore);
     private router = inject(Router);
 
-    private apiUrl = 'http://localhost:3000'; // Assumption: NestJS runs on port 3000
+    private apiUrl = environment.baseUrl; // Assumption: NestJS runs on port 3000
 
     login(credentials: { email: string; password: string }): Observable<any> {
         this.store.setLoading(true);
@@ -29,12 +30,16 @@ export class AuthService {
                 const decodedToken: any = jwtDecode(token);
                 const role = decodedToken.role;
 
-                // Construct a user object from the token since the API might not return directly
+                // Construct a user object from the token
                 const user: User = {
                     id: decodedToken.sub,
                     email: decodedToken.email,
-                    username: decodedToken.email, // Use email as username fallback
-                    role: role
+                    first_name: null, // Token might not have this, set null or extract if available
+                    last_name: null,
+                    role: role,
+                    isActive: true, // Default to true if not in token
+                    created_at: new Date().toISOString(),
+                    updated_at: new Date().toISOString()
                 };
 
                 this.store.loginSuccess(user, token);

@@ -7,19 +7,27 @@
     <table mat-table [dataSource]="store.requests()" class="mat-elevation-z8">
         <ng-container matColumnDef="patientName">
             <th mat-header-cell *matHeaderCellDef> Patient </th>
-            <td mat-cell *matCellDef="let req"> {{req.patientName}} </td>
+            <td mat-cell *matCellDef="let req"> {{req.patientName || 'N/A'}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="testType">
-            <th mat-header-cell *matHeaderCellDef> Test Type </th>
-            <td mat-cell *matCellDef="let req"> {{req.testType}} </td>
+        <ng-container matColumnDef="testName">
+            <th mat-header-cell *matHeaderCellDef> Test Name </th>
+            <td mat-cell *matCellDef="let req"> {{req.test?.name || req.testId || 'N/A' }} </td>
         </ng-container>
 
-        <ng-container matColumnDef="priority">
-            <th mat-header-cell *matHeaderCellDef> Priority </th>
-            <td mat-cell *matCellDef="let req">
-                <span [class]="'priority-badge ' + req.priority.toLowerCase()">{{req.priority}}</span>
-            </td>
+        <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef> Price </th>
+            <td mat-cell *matCellDef="let req"> {{req.test?.price | currency:'NGN':'symbol-narrow'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="discount">
+            <th mat-header-cell *matHeaderCellDef> Discount </th>
+            <td mat-cell *matCellDef="let req"> {{req.discount}}% </td>
+        </ng-container>
+
+        <ng-container matColumnDef="outstanding_balance">
+            <th mat-header-cell *matHeaderCellDef> Balance </th>
+            <td mat-cell *matCellDef="let req"> {{req.outstanding_balance | currency:'NGN':'symbol-narrow'}} </td>
         </ng-container>
 
         <ng-container matColumnDef="status">
@@ -29,7 +37,7 @@
 
         <ng-container matColumnDef="createdAt">
             <th mat-header-cell *matHeaderCellDef> Date </th>
-            <td mat-cell *matCellDef="let req"> {{req.createdAt | date:'short'}} </td>
+            <td mat-cell *matCellDef="let req"> {{req.created_at | date:'short'}} </td>
         </ng-container>
 
         <ng-container matColumnDef="actions">

@@ -4,35 +4,58 @@
         <button mat-raised-button color="primary" (click)="openUserDialog()">Add Staff</button>
     </div>
 
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-        <ng-container matColumnDef="username">
-            <th mat-header-cell *matHeaderCellDef> Username </th>
-            <td mat-cell *matCellDef="let user"> {{user.username}} </td>
-        </ng-container>
+    <mat-form-field appearance="outline" class="full-width-filter">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Search users..." #input>
+    </mat-form-field>
 
-        <ng-container matColumnDef="email">
-            <th mat-header-cell *matHeaderCellDef> Email </th>
-            <td mat-cell *matCellDef="let user"> {{user.email}} </td>
-        </ng-container>
+    <div class="table-container mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="full_name">
+                <th mat-header-cell *matHeaderCellDef> Full Name </th>
+                <td mat-cell *matCellDef="let user">
+                    {{ (user.first_name && user.last_name) ? (user.first_name + ' ' + user.last_name) : 'N/A' }}
+                </td>
+            </ng-container>
 
-        <ng-container matColumnDef="role">
-            <th mat-header-cell *matHeaderCellDef> Role </th>
-            <td mat-cell *matCellDef="let user"> {{user.role | titlecase}} </td>
-        </ng-container>
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef> Email </th>
+                <td mat-cell *matCellDef="let user"> {{user.email}} </td>
+            </ng-container>
 
-        <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef> Actions </th>
-            <td mat-cell *matCellDef="let user">
-                <button mat-icon-button color="primary" (click)="openUserDialog(user)">
-                    <mat-icon>edit</mat-icon>
-                </button>
-                <button mat-icon-button color="warn" (click)="deleteUser(user.id)">
-                    <mat-icon>delete</mat-icon>
-                </button>
-            </td>
-        </ng-container>
+            <ng-container matColumnDef="role">
+                <th mat-header-cell *matHeaderCellDef> Role </th>
+                <td mat-cell *matCellDef="let user"> {{user.role | titlecase}} </td>
+            </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+            <ng-container matColumnDef="isActive">
+                <th mat-header-cell *matHeaderCellDef> Status </th>
+                <td mat-cell *matCellDef="let user">
+                    <span [class.active]="user.isActive" [class.inactive]="!user.isActive">
+                        {{ user.isActive ? 'Active' : 'Inactive' }}
+                    </span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="created_at">
+                <th mat-header-cell *matHeaderCellDef> Created At </th>
+                <td mat-cell *matCellDef="let user"> {{user.created_at | date:'medium'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                <td mat-cell *matCellDef="let user">
+                    <button mat-icon-button color="primary" (click)="openUserDialog(user)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="deleteUser(user.id)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
 </div>

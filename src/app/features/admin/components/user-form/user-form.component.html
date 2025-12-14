@@ -1,11 +1,19 @@
 <h2 mat-dialog-title>{{ isEditMode ? 'Edit Staff' : 'Add Staff' }}</h2>
 <mat-dialog-content>
     <form [formGroup]="form" (ngSubmit)="onSubmit()" fxLayout="column" fxLayoutGap="16px">
-        <mat-form-field appearance="outline">
-            <mat-label>Username</mat-label>
-            <input matInput formControlName="username">
-            <mat-error *ngIf="form.get('username')?.hasError('required')">Username is required</mat-error>
-        </mat-form-field>
+        <div fxLayout="row" fxLayoutGap="16px">
+            <mat-form-field appearance="outline" fxFlex>
+                <mat-label>First Name</mat-label>
+                <input matInput formControlName="first_name">
+                <mat-error *ngIf="form.get('first_name')?.hasError('required')">First name is required</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" fxFlex>
+                <mat-label>Last Name</mat-label>
+                <input matInput formControlName="last_name">
+                <mat-error *ngIf="form.get('last_name')?.hasError('required')">Last name is required</mat-error>
+            </mat-form-field>
+        </div>
 
         <mat-form-field appearance="outline">
             <mat-label>Email</mat-label>
@@ -13,11 +21,12 @@
             <mat-error *ngIf="form.get('email')?.hasError('email')">Invalid email</mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" *ngIf="!isEditMode">
-            <!-- Allow password change in separate flow usually, or here if simple -->
+        <mat-form-field appearance="outline">
             <mat-label>Password</mat-label>
             <input matInput formControlName="password" type="password">
             <mat-error *ngIf="form.get('password')?.hasError('required')">Password is required</mat-error>
+            <mat-error *ngIf="form.get('password')?.hasError('minlength')">Password must be at least 8
+                characters</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -27,19 +36,18 @@
                     {{ role | titlecase }}
                 </mat-option>
             </mat-select>
+            <mat-error *ngIf="form.get('role')?.hasError('required')">Role is required</mat-error>
         </mat-form-field>
 
-        <div fxLayout="row" fxLayoutGap="16px">
-            <mat-form-field appearance="outline" fxFlex>
-                <mat-label>First Name</mat-label>
-                <input matInput formControlName="firstName">
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" fxFlex>
-                <mat-label>Last Name</mat-label>
-                <input matInput formControlName="lastName">
-            </mat-form-field>
-        </div>
+        <mat-form-field appearance="outline">
+            <mat-label>Designation</mat-label>
+            <mat-select formControlName="designationId">
+                <mat-option [value]="null">None</mat-option>
+                <mat-option *ngFor="let design of designations" [value]="design.id">
+                    {{ design.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
     </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">

@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { TestRequest } from '../models/test-request.model';
+import { environment } from '../../../environments/environment';
 import { RequestStore } from './request-store';
 
 @Injectable({
@@ -10,7 +11,7 @@ import { RequestStore } from './request-store';
 export class RequestService {
     private http = inject(HttpClient);
     private store = inject(RequestStore);
-    private apiUrl = 'http://localhost:3000/api/requests';
+    private apiUrl = `${environment.baseUrl}/test-requests`;
 
     getRequests(): Observable<TestRequest[]> {
         this.store.setLoading(true);

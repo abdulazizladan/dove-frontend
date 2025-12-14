@@ -6,7 +6,11 @@ export interface Designation {
 export interface Department {
     id: string;
     name: string;
-    designations: Designation[];
+    created_at?: string;
+    updated_at?: string;
+    // organization: Organization; // Circular reference if Organization contains departments, make optional or specific type
+    organizationId?: string;
+    designations?: Designation[];
 }
 
 export interface Organization {

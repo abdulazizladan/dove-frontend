@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { Patient } from '../models/patient.model';
+import { environment } from '../../../environments/environment';
 import { PatientStore } from './patient-store';
 
 @Injectable({
@@ -10,7 +11,7 @@ import { PatientStore } from './patient-store';
 export class PatientService {
     private http = inject(HttpClient);
     private store = inject(PatientStore);
-    private apiUrl = 'http://localhost:3000/api/patients';
+    private apiUrl = `${environment.baseUrl}/patients`;
 
     getPatients(): Observable<Patient[]> {
         this.store.setLoading(true);

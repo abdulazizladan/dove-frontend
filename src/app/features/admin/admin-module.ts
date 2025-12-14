@@ -6,7 +6,9 @@ import { UserListComponent } from './components/user-list/user-list.component';
 import { UserFormComponent } from './components/user-form/user-form.component';
 import { OrganizationComponent } from './components/organization/organization.component';
 import { ActivityLogComponent } from './components/activity-log/activity-log.component';
+import { DepartmentDetailsComponent } from './components/department-details/department-details.component';
 import { SharedModule } from '../../shared/shared-module';
+import { LayoutModule } from '../../layout/layout-module';
 
 
 @NgModule({
@@ -14,12 +16,14 @@ import { SharedModule } from '../../shared/shared-module';
     UserListComponent,
     UserFormComponent,
     OrganizationComponent,
-    ActivityLogComponent
+    ActivityLogComponent,
+    DepartmentDetailsComponent
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
-    SharedModule
+    SharedModule,
+    LayoutModule
   ]
 })
 export class AdminModule { }

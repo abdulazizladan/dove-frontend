@@ -7,17 +7,22 @@
     <table mat-table [dataSource]="store.patients()" class="mat-elevation-z8">
         <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef> Name </th>
-            <td mat-cell *matCellDef="let patient"> {{patient.firstName}} {{patient.lastName}} </td>
+            <td mat-cell *matCellDef="let patient"> {{patient.name}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="dateOfBirth">
+        <ng-container matColumnDef="date_of_birth">
             <th mat-header-cell *matHeaderCellDef> Date of Birth </th>
-            <td mat-cell *matCellDef="let patient"> {{patient.dateOfBirth | date}} </td>
+            <td mat-cell *matCellDef="let patient"> {{patient.date_of_birth | date}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="phone">
-            <th mat-header-cell *matHeaderCellDef> Phone </th>
-            <td mat-cell *matCellDef="let patient"> {{patient.phone}} </td>
+        <ng-container matColumnDef="contact">
+            <th mat-header-cell *matHeaderCellDef> Contact </th>
+            <td mat-cell *matCellDef="let patient"> {{patient.contact}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="gender">
+            <th mat-header-cell *matHeaderCellDef> Gender </th>
+            <td mat-cell *matCellDef="let patient"> {{patient.gender}} </td>
         </ng-container>
 
         <ng-container matColumnDef="actions">

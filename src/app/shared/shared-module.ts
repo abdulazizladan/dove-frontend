@@ -18,6 +18,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [],
@@ -39,7 +40,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatOptionModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatPaginatorModule
   ],
   exports: [
     CommonModule,
@@ -59,7 +61,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatOptionModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatPaginatorModule
   ]
 })
 export class SharedModule { }

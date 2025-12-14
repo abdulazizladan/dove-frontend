@@ -1,7 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { Organization } from '../models/organization.model';
+import { Organization, Department } from '../models/organization.model';
+import { environment } from '../../../environments/environment';
 import { OrgStore } from './org-store';
 
 @Injectable({
@@ -10,13 +11,17 @@ import { OrgStore } from './org-store';
 export class OrganizationService {
     private http = inject(HttpClient);
     private store = inject(OrgStore);
-    private apiUrl = 'http://localhost:3000/api/organization';
+    private apiUrl = `${environment.baseUrl}/organization`;
 
-    getOrganization(): Observable<Organization> {
+    getOrganization(): Observable<Organization[]> {
         this.store.setLoading(true);
-        return this.http.get<Organization>(this.apiUrl).pipe(
+        return this.http.get<Organization[]>(this.apiUrl).pipe(
             tap({
-                next: (org) => this.store.setOrganization(org),
+                next: (orgs) => {
+                    if (orgs && orgs.length > 0) {
+                        this.store.setOrganization(orgs[0]);
+                    }
+                },
                 error: (err) => this.store.setError(err.message)
             })
         );
@@ -26,5 +31,9 @@ export class OrganizationService {
         return this.http.patch<Organization>(this.apiUrl, org).pipe(
             tap((updatedOrg) => this.store.setOrganization(updatedOrg))
         );
+    }
+
+    getDepartments(): Observable<Department[]> {
+        return this.http.get<Department[]>(`${environment.baseUrl}/departments`);
     }
 }

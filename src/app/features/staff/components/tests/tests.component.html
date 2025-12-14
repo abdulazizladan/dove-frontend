@@ -1,0 +1,31 @@
+<div class="content-header">
+    <h1>Test Catalog</h1>
+    <button mat-raised-button color="primary" (click)="openAddTestDialog()">Add Test</button>
+</div>
+
+<div class="table-container mat-elevation-z8">
+    <table mat-table [dataSource]="tests">
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> ID </th>
+            <td mat-cell *matCellDef="let test"> {{test.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let test"> {{test.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef> Price </th>
+            <td mat-cell *matCellDef="let test"> {{test.price | currency}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="departmentId">
+            <th mat-header-cell *matHeaderCellDef> Department ID </th>
+            <td mat-cell *matCellDef="let test"> {{test.departmentId}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>

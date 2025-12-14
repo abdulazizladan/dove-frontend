@@ -17,7 +17,7 @@ export class PatientListComponent implements OnInit {
     protected store = inject(PatientStore);
     private dialog = inject(MatDialog);
 
-    displayedColumns: string[] = ['name', 'dateOfBirth', 'phone', 'actions'];
+    displayedColumns: string[] = ['name', 'date_of_birth', 'contact', 'gender', 'actions'];
     dataSource = new MatTableDataSource<Patient>([]);
 
     ngOnInit(): void {

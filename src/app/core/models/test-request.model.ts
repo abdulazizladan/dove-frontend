@@ -1,3 +1,5 @@
+import { Test } from './test.model';
+
 export enum RequestStatus {
     PENDING = 'PENDING',
     IN_PROGRESS = 'IN_PROGRESS',
@@ -5,21 +7,19 @@ export enum RequestStatus {
     CANCELLED = 'CANCELLED'
 }
 
-export enum TestType {
-    BLOOD_TEST = 'BLOOD_TEST',
-    URINE_TEST = 'URINE_TEST',
-    X_RAY = 'X_RAY',
-    MRI = 'MRI'
-}
-
 export interface TestRequest {
     id: string;
     patientId: string;
-    patientName: string; // Denormalized for display convenience
-    testType: TestType;
-    priority: 'LOW' | 'MEDIUM' | 'HIGH';
-    status: RequestStatus;
+    patientName?: string; // Optional as it might not be in response
+    test?: Test; // Nested object from response
+    testId?: string; // Optional for creation payload
+    priority?: 'LOW' | 'MEDIUM' | 'HIGH'; // Made optional as it's missing in JSON example
+    status: RequestStatus; // JSON says "Pending" (capitalized), need to verify enum compatibility
+    discount?: number;
+    discount_reason?: string;
+    outstanding_balance?: number;
+    payments?: any[]; // Placeholder for payments array
     notes?: string;
-    createdAt: Date;
-    updatedAt: Date;
+    created_at: string; // Use string for ISO dates from JSON
+    updated_at: string;
 }

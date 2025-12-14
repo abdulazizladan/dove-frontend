@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>Add New Test</h2>
+<div mat-dialog-content>
+    <form [formGroup]="form">
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Test ID</mat-label>
+            <input matInput formControlName="id" placeholder="e.g. CBC">
+            <mat-error *ngIf="form.get('id')?.hasError('required')">ID is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Test Name</mat-label>
+            <input matInput formControlName="name" placeholder="e.g. Complete Blood Count">
+            <mat-error *ngIf="form.get('name')?.hasError('required')">Name is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Price</mat-label>
+            <input matInput type="number" formControlName="price">
+            <mat-error *ngIf="form.get('price')?.hasError('required')">Price is required</mat-error>
+            <mat-error *ngIf="form.get('price')?.hasError('min')">Price must be positive</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Department</mat-label>
+            <mat-select formControlName="departmentId">
+                <mat-option *ngFor="let dept of departments" [value]="dept.id">
+                    {{dept.name}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('departmentId')?.hasError('required')">Department is required</mat-error>
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="form.invalid">Create</button>
+</div>

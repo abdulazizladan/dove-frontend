@@ -9,6 +9,7 @@ import { CoreModule } from './core/core-module';
 import { SharedModule } from './shared/shared-module';
 import { NgxWebstorageFeature, provideNgxWebstorage, withLocalStorage } from 'ngx-webstorage';
 import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
+import { LayoutModule } from './layout/layout-module';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
     HttpClientModule,
     AppRoutingModule,
     CoreModule,
-    SharedModule
+    SharedModule,
+    LayoutModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),

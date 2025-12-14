@@ -1,0 +1,25 @@
+.sidenav-container {
+    height: 100vh;
+}
+
+.sidenav {
+    width: 250px;
+
+    // Optional: Add some styling to sidenav if needed, currently using mat-nav-list default styles
+    // .mat-toolbar { background: ... } 
+}
+
+.mat-toolbar.mat-primary {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.content {
+    padding: 20px;
+}
+
+// Ensure active link styling works with mat-list-item if needed
+.active {
+    background: rgba(0, 0, 0, 0.04);
+}
