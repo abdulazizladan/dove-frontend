@@ -1,0 +1,65 @@
+<div class="summary-container">
+    <!-- Today's Input -->
+    <mat-card class="summary-card card-today">
+        <div class="card-content">
+            <div class="card-header">
+                <span class="badge">Today</span>
+                <mat-icon style="opacity: 0.8">account_balance_wallet</mat-icon>
+            </div>
+            <h3 class="amount">{{ totalInputToday | currency:'NGN':'symbol-narrow' }}</h3>
+            <p class="label">Total collected today</p>
+        </div>
+        <!-- Decor bubble -->
+        <div class="decor-bubble"></div>
+    </mat-card>
+
+    <!-- Outstanding -->
+    <mat-card class="summary-card card-outstanding">
+        <div class="card-content">
+            <div class="card-header">
+                <span class="badge">Pending</span>
+                <mat-icon style="opacity: 0.8">pending_actions</mat-icon>
+            </div>
+            <h3 class="amount">{{ outstandingPayment | currency:'NGN':'symbol-narrow' }}</h3>
+            <p class="label">Total outstanding balance</p>
+        </div>
+        <div class="decor-bubble"></div>
+    </mat-card>
+
+    <!-- Chart -->
+    <mat-card class="summary-card card-chart">
+        <div class="card-content">
+            <div class="chart-header">
+                <div>
+                    <h4 class="chart-title">Daily Revenue</h4>
+                    <div class="comparison-container">
+                        <div class="comparison-item">
+                            <span class="comparison-label">Today:</span>
+                            <span class="comparison-value">{{ totalInputToday | currency:'NGN':'symbol-narrow' }}</span>
+                        </div>
+                        <div class="comparison-item">
+                            <span class="comparison-label">Yesterday:</span>
+                            <span class="comparison-value">{{ totalInputYesterday | currency:'NGN':'symbol-narrow'
+                                }}</span>
+                        </div>
+                    </div>
+                </div>
+                <mat-icon class="chart-icon">show_chart</mat-icon>
+            </div>
+
+            <!-- SVG Chart -->
+            <div class="chart-area">
+                <svg [attr.viewBox]="'0 0 ' + chartWidth + ' ' + chartHeight" class="svg-chart">
+                    <defs>
+                        <linearGradient id="chartGrad" x1="0" x2="0" y1="0" y2="1">
+                            <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.2" />
+                            <stop offset="100%" stop-color="#3b82f6" stop-opacity="0" />
+                        </linearGradient>
+                    </defs>
+                    <!-- Line -->
+                    <path [attr.d]="chartPoints" class="chart-line" />
+                </svg>
+            </div>
+        </div>
+    </mat-card>
+</div>

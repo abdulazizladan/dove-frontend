@@ -1,0 +1,83 @@
+<div class="payments-container">
+    <div class="header-section">
+        <h1>Payment History</h1>
+        <p class="subtitle">Overview of financial transactions</p>
+    </div>
+
+    <!-- Chart Section -->
+    <div class="chart-card">
+        <div class="chart-header">
+            <div>
+                <h2>30 Day Revenue Trend</h2>
+                <p class="revenue-amount">{{ totalRevenue30Days | currency:'NGN':'symbol-narrow' }}</p>
+            </div>
+            <div class="trend-indicator up">
+                <mat-icon>trending_up</mat-icon>
+                <span>Last 30 Days</span>
+            </div>
+        </div>
+
+        <div class="chart-wrapper">
+            <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="lineChartType">
+            </canvas>
+        </div>
+    </div>
+
+    <!-- Table Section -->
+    <div class="table-card mat-elevation-z8">
+        <div class="table-header">
+            <h2>Transactions</h2>
+            <mat-form-field appearance="outline" class="search-field">
+                <mat-label>Search Payments</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Search patient, test, etc." #input>
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+        </div>
+
+        <table mat-table [dataSource]="dataSource" class="w-full">
+            <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef> Date </th>
+                <td mat-cell *matCellDef="let element"> {{element.payment_date | date:'mediumDate'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="patient">
+                <th mat-header-cell *matHeaderCellDef> Patient </th>
+                <td mat-cell *matCellDef="let element"> {{element.patient_name | titlecase}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="test">
+                <th mat-header-cell *matHeaderCellDef> Test </th>
+                <td mat-cell *matCellDef="let element"> {{element.test_name | titlecase}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="amount">
+                <th mat-header-cell *matHeaderCellDef> Amount </th>
+                <td mat-cell *matCellDef="let element" class="font-bold text-green-600">
+                    {{element.amount | currency:'NGN':'symbol-narrow'}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="mode">
+                <th mat-header-cell *matHeaderCellDef> Mode </th>
+                <td mat-cell *matCellDef="let element">
+                    <span class="mode-badge">{{element.mode}}</span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef> Status </th>
+                <td mat-cell *matCellDef="let element">
+                    <span class="status-badge success">Successful</span>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="hover:bg-gray-50 cursor-pointer"
+                [routerLink]="['details', row.id]"></tr>
+
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="6">No payments matching the filter "{{input.value}}"</td>
+            </tr>
+        </table>
+    </div>
+</div>

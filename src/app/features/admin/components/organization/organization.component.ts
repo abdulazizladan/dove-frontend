@@ -26,7 +26,9 @@ export class OrganizationComponent implements OnInit {
     // Simple form for Org details
     form: FormGroup = this.fb.group({
         name: ['', Validators.required],
-        address: ['', Validators.required]
+        address: ['', Validators.required],
+        contact: [''],
+        logo_url: ['']
     });
 
     ngOnInit(): void {
@@ -36,7 +38,7 @@ export class OrganizationComponent implements OnInit {
 
     onSubmit(): void {
         if (this.form.valid) {
-            this.orgService.updateOrganization(this.form.value).subscribe();
+            this.orgService.createOrganization(this.form.value).subscribe();
         }
     }
 

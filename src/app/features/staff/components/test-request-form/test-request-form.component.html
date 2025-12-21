@@ -6,7 +6,7 @@
             <mat-label>Select Patient</mat-label>
             <mat-select formControlName="patientId">
                 <mat-option *ngFor="let patient of patients" [value]="patient.id">
-                    {{patient.name}}
+                    {{patient.name | titlecase}}
                 </mat-option>
             </mat-select>
             <mat-error *ngIf="form.get('patientId')?.hasError('required')">Patient is required</mat-error>

@@ -1,4 +1,5 @@
 import { Test } from './test.model';
+import { Patient } from './patient.model';
 
 export enum RequestStatus {
     PENDING = 'PENDING',
@@ -11,6 +12,7 @@ export interface TestRequest {
     id: string;
     patientId: string;
     patientName?: string; // Optional as it might not be in response
+    patient?: Patient; // Added this relation
     test?: Test; // Nested object from response
     testId?: string; // Optional for creation payload
     priority?: 'LOW' | 'MEDIUM' | 'HIGH'; // Made optional as it's missing in JSON example

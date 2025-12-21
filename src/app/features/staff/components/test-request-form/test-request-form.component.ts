@@ -11,7 +11,7 @@ import { Test } from '../../../../core/models/test.model';
 @Component({
     selector: 'app-test-request-form',
     templateUrl: './test-request-form.component.html',
-    styleUrl: './test-request-form.component.scss',
+    styleUrls: ['./test-request-form.component.scss'],
     standalone: false
 })
 export class TestRequestFormComponent implements OnInit {

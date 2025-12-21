@@ -1,43 +1,81 @@
-<h2 mat-dialog-title>Add New Doctor</h2>
-<mat-dialog-content [formGroup]="form" class="flex flex-col gap-4 min-w-[400px]">
-    <div class="flex gap-4">
-        <mat-form-field appearance="outline" class="flex-1">
-            <mat-label>First Name</mat-label>
-            <input matInput formControlName="first_name">
-            <mat-error *ngIf="form.get('first_name')?.hasError('required')">First name is required</mat-error>
-        </mat-form-field>
+<h2 mat-dialog-title class="!font-bold !text-xl border-b border-gray-100 pb-4 mb-2">New Referring Doctor</h2>
+<mat-dialog-content [formGroup]="form" class="!flex !flex-col gap-6 !p-6 min-w-[600px]">
 
-        <mat-form-field appearance="outline" class="flex-1">
-            <mat-label>Last Name</mat-label>
-            <input matInput formControlName="last_name">
-            <mat-error *ngIf="form.get('last_name')?.hasError('required')">Last name is required</mat-error>
-        </mat-form-field>
-    </div>
+    <!-- Personal Info Card -->
+    <mat-card appearance="outlined" class="w-full bg-blue-50/50 border-blue-100">
+        <mat-card-header class="!pb-2">
+            <mat-icon mat-card-avatar class="text-blue-600 scale-125">person</mat-icon>
+            <mat-card-title class="text-base font-semibold text-gray-800">Personal Information</mat-card-title>
+            <mat-card-subtitle class="text-xs">Enter doctor's name and details</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="!pt-2">
+            <div class="flex gap-4">
+                <mat-form-field appearance="outline" class="flex-1 bg-white rounded-lg">
+                    <mat-label>First Name</mat-label>
+                    <input matInput formControlName="first_name" placeholder="John">
+                    <mat-error *ngIf="form.get('first_name')?.hasError('required')">Required</mat-error>
+                </mat-form-field>
 
-    <mat-form-field appearance="outline">
-        <mat-label>Email</mat-label>
-        <input matInput formControlName="email" type="email">
-        <mat-error *ngIf="form.get('email')?.hasError('required')">Email is required</mat-error>
-        <mat-error *ngIf="form.get('email')?.hasError('email')">Invalid email</mat-error>
-    </mat-form-field>
+                <mat-form-field appearance="outline" class="flex-1 bg-white rounded-lg">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput formControlName="last_name" placeholder="Doe">
+                    <mat-error *ngIf="form.get('last_name')?.hasError('required')">Required</mat-error>
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+    </mat-card>
 
-    <mat-form-field appearance="outline">
-        <mat-label>Phone</mat-label>
-        <input matInput formControlName="phone">
-        <mat-error *ngIf="form.get('phone')?.hasError('required')">Phone is required</mat-error>
-    </mat-form-field>
+    <!-- Contact Info Card -->
+    <mat-card appearance="outlined" class="w-full bg-purple-50/50 border-purple-100">
+        <mat-card-header class="!pb-2">
+            <mat-icon mat-card-avatar class="text-purple-600 scale-125">contact_phone</mat-icon>
+            <mat-card-title class="text-base font-semibold text-gray-800">Contact Details</mat-card-title>
+            <mat-card-subtitle class="text-xs">Email and phone number</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="!pt-2">
+            <div class="flex gap-4">
+                <mat-form-field appearance="outline" class="flex-1 bg-white rounded-lg">
+                    <mat-label>Email Address</mat-label>
+                    <input matInput formControlName="email" type="email" placeholder="doctor@example.com">
+                    <mat-icon matSuffix class="text-gray-400">email</mat-icon>
+                    <mat-error *ngIf="form.get('email')?.hasError('required')">Required</mat-error>
+                    <mat-error *ngIf="form.get('email')?.hasError('email')">Invalid email</mat-error>
+                </mat-form-field>
 
-    <mat-form-field appearance="outline">
-        <mat-label>Hospital</mat-label>
-        <mat-select formControlName="hospitalId">
-            <mat-option *ngFor="let hospital of hospitals$ | async" [value]="hospital.id">
-                {{ hospital.name }}
-            </mat-option>
-        </mat-select>
-        <mat-error *ngIf="form.get('hospitalId')?.hasError('required')">Hospital is required</mat-error>
-    </mat-form-field>
+                <mat-form-field appearance="outline" class="flex-1 bg-white rounded-lg">
+                    <mat-label>Phone Number</mat-label>
+                    <input matInput formControlName="phone" placeholder="+234...">
+                    <mat-icon matSuffix class="text-gray-400">phone</mat-icon>
+                    <mat-error *ngIf="form.get('phone')?.hasError('required')">Required</mat-error>
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- Professional Info Card -->
+    <mat-card appearance="outlined" class="w-full bg-teal-50/50 border-teal-100">
+        <mat-card-header class="!pb-2">
+            <mat-icon mat-card-avatar class="text-teal-600 scale-125">local_hospital</mat-icon>
+            <mat-card-title class="text-base font-semibold text-gray-800">Affiliation</mat-card-title>
+            <mat-card-subtitle class="text-xs">Hospital or Clinic</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="!pt-2">
+            <mat-form-field appearance="outline" class="w-full bg-white rounded-lg">
+                <mat-label>Select Hospital</mat-label>
+                <mat-select formControlName="hospitalId" placeholder="Choose hospital">
+                    <mat-option *ngFor="let hospital of hospitals$ | async" [value]="hospital.id">
+                        {{ hospital.name }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="form.get('hospitalId')?.hasError('required')">Hospital is required</mat-error>
+            </mat-form-field>
+        </mat-card-content>
+    </mat-card>
+
 </mat-dialog-content>
-<mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-raised-button color="primary" (click)="submit()" [disabled]="form.invalid">Create</button>
+<mat-dialog-actions align="end" class="!px-6 !pb-6 border-t border-gray-100 pt-4">
+    <button mat-stroked-button mat-dialog-close class="!mr-2">Cancel</button>
+    <button mat-raised-button color="primary" (click)="submit()" [disabled]="form.invalid" class="px-8">
+        <mat-icon>check</mat-icon> Save Doctor
+    </button>
 </mat-dialog-actions>

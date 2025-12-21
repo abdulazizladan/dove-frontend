@@ -17,6 +17,7 @@ const routes: Routes = [
       { path: 'patients', component: PatientListComponent },
       { path: 'requests', component: TestRequestListComponent },
       { path: 'request-details/:id', component: TestRequestDetailsComponent },
+      { path: 'payments', loadChildren: () => import('./payments/payments.module').then(m => m.PaymentsModule) },
       { path: 'tests', component: TestsComponent },
       { path: 'doctors', component: DoctorsListComponent },
       { path: 'doctor-details/:id', component: DoctorDetailsComponent },

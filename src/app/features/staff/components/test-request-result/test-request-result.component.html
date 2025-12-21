@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>Add Test Result</h2>
+<mat-dialog-content>
+    <form [formGroup]="form" fxLayout="column" fxLayoutGap="16px">
+        <mat-form-field appearance="outline" class="w-full" style="width: 100%;">
+            <mat-label>Summary/Result Details</mat-label>
+            <textarea matInput formControlName="summary" rows="5"
+                placeholder="Enter detailed test results here..."></textarea>
+            <mat-error *ngIf="form.get('summary')?.hasError('required')">Summary is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full" style="width: 100%;">
+            <mat-label>Attachment URL (Optional)</mat-label>
+            <input matInput formControlName="attachmentUrl" placeholder="https://example.com/file.pdf">
+            <mat-icon matSuffix>link</mat-icon>
+            <mat-error *ngIf="form.get('attachmentUrl')?.hasError('pattern')">Please enter a valid URL</mat-error>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="form.invalid">Submit Result</button>
+</mat-dialog-actions>

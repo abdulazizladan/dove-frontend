@@ -1,0 +1,134 @@
+.details-container {
+    padding: 1.5rem;
+}
+
+.back-button {
+    margin-bottom: 1rem;
+}
+
+.details-card {
+    max-width: 56rem;
+    /* approx 4xl */
+    margin: 0 auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    background-color: white;
+}
+
+.card-header-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(59, 130, 246, 0.1);
+    /* primary/10 */
+    color: #3b82f6;
+    /* primary */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: white;
+    background-color: #6b7280;
+    /* default/pending grey */
+    text-transform: uppercase;
+}
+
+.status-completed {
+    background-color: #22c55e;
+    /* green-500 */
+}
+
+.status-in-progress {
+    background-color: #3b82f6;
+    /* blue-500 */
+}
+
+.status-cancelled {
+    background-color: #ef4444;
+    /* red-500 */
+}
+
+.status-pending {
+    background-color: #eab308;
+    /* yellow-500 */
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding-top: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .content-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.section-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #374151;
+    /* gray-700 */
+    margin-bottom: 1rem;
+}
+
+.info-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.info-item {
+    font-size: 1rem;
+    color: #1f2937;
+}
+
+.label {
+    font-weight: 600;
+    margin-right: 0.5rem;
+}
+
+.balance-amount {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #dc2626;
+    /* red-600 */
+}
+
+.notes-section {
+    margin-top: 2rem;
+}
+
+.notes-box {
+    padding: 1rem;
+    background-color: #f9fafb;
+    /* gray-50 */
+    border-radius: 0.5rem;
+    color: #374151;
+}
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5rem 0;
+}
+
+.spacer {
+    margin-left: auto;
+}

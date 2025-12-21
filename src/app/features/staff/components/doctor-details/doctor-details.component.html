@@ -1,42 +1,83 @@
-<div class="p-6">
-    <button mat-button color="primary" routerLink="../../doctors" class="mb-4">
+<div class="details-container">
+    <button mat-button color="primary" routerLink="../../doctors" class="back-button">
         <mat-icon>arrow_back</mat-icon> Back to Doctors
     </button>
 
     <div *ngIf="doctor$ | async as doctor; else loading">
-        <mat-card class="max-w-3xl mx-auto">
-            <mat-card-header class="mb-4">
-                <div mat-card-avatar
-                    class="bg-primary/10 text-primary flex items-center justify-center rounded-full w-16 h-16 text-2xl">
-                    <mat-icon class="scale-150">medical_services</mat-icon>
-                </div>
-                <div class="ml-4">
-                    <mat-card-title class="text-2xl">{{ doctor.first_name }} {{ doctor.last_name | uppercase
-                        }}</mat-card-title>
-                    <mat-card-subtitle class="text-lg">{{ doctor.email }}</mat-card-subtitle>
+        <mat-card class="details-card">
+            <mat-card-header>
+                <div class="card-header-content">
+                    <div mat-card-avatar class="avatar">
+                        <mat-icon>medical_services</mat-icon>
+                    </div>
+                    <div>
+                        <mat-card-title>{{ doctor.first_name }} {{ doctor.last_name | uppercase }}</mat-card-title>
+                        <mat-card-subtitle>{{ doctor.email }}</mat-card-subtitle>
+                    </div>
                 </div>
             </mat-card-header>
 
-            <mat-divider></mat-divider>
+            <mat-divider class="divider"></mat-divider>
 
-            <mat-card-content class="pt-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12">
-                    <div>
-                        <h3 class="text-gray-500 text-sm font-medium uppercase mb-1">Phone</h3>
-                        <p class="font-medium capitalize">{{ doctor.phone }}</p>
+            <mat-card-content>
+                <div class="content-grid">
+                    <!-- Contact Info -->
+                    <div class="info-group">
+                        <h3 class="section-title">
+                            <mat-icon class="text-sm">contact_phone</mat-icon>
+                            Contact Details
+                        </h3>
+                        <div class="info-item">
+                            <span class="label">Phone Number</span>
+                            <span class="value">{{ doctor.phone }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Email Address</span>
+                            <span class="value">{{ doctor.email }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Member Since</span>
+                            <span class="value">{{ doctor.created_at | date:'longDate' }}</span>
+                        </div>
                     </div>
 
-                    <div *ngIf="doctor.hospital">
-                        <h3 class="text-gray-500 text-sm font-medium uppercase mb-1">Hospital</h3>
-                        <p class="font-medium">{{ doctor.hospital.name }}</p>
-                        <p class="text-sm text-gray-500">{{ doctor.hospital.address }}</p>
-                        <p class="text-sm text-gray-500">Contact: {{ doctor.hospital.contact_person }} ({{
-                            doctor.hospital.phone }})</p>
+                    <!-- Hospital Info -->
+                    <div class="info-group" *ngIf="doctor.hospital">
+                        <h3 class="section-title">
+                            <mat-icon class="text-sm">local_hospital</mat-icon>
+                            Hospital Information
+                        </h3>
+                        <div class="info-item">
+                            <span class="label">Hospital Name</span>
+                            <span class="value highlight">{{ doctor.hospital.name }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Address</span>
+                            <span class="value">
+                                <address>{{ doctor.hospital.address }}</address>
+                            </span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Primary Contact</span>
+                            <span class="value">
+                                {{ doctor.hospital.contact_person }}
+                                <span class="text-sm text-gray-500 block" *ngIf="doctor.hospital.phone">
+                                    {{ doctor.hospital.phone }}
+                                </span>
+                            </span>
+                        </div>
                     </div>
 
-                    <div>
-                        <h3 class="text-gray-500 text-sm font-medium uppercase mb-1">Added On</h3>
-                        <p class="font-medium">{{ doctor.created_at | date:'mediumDate' }}</p>
+                    <!-- If no hospital info -->
+                    <div class="info-group" *ngIf="!doctor.hospital">
+                        <h3 class="section-title">
+                            <mat-icon class="text-sm">local_hospital</mat-icon>
+                            Hospital Information
+                        </h3>
+                        <div class="flex flex-col items-center justify-center h-full text-center py-4 opacity-50">
+                            <mat-icon class="text-4xl mb-2">domain_disabled</mat-icon>
+                            <p>No hospital information linked.</p>
+                        </div>
                     </div>
                 </div>
             </mat-card-content>
@@ -44,7 +85,7 @@
     </div>
 
     <ng-template #loading>
-        <div class="flex justify-center items-center py-20">
+        <div class="loading-container">
             <mat-spinner diameter="40"></mat-spinner>
         </div>
     </ng-template>

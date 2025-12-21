@@ -1,10 +1,18 @@
 <div class="content-header">
     <h1>Test Catalog</h1>
-    <button mat-raised-button color="primary" (click)="openAddTestDialog()">Add Test</button>
+    <button mat-flat-button color="primary" (click)="openAddTestDialog()">
+        <mat-icon>add</mat-icon> Add Test
+    </button>
 </div>
 
+<mat-form-field appearance="outline" class="w-full" style="width: 100%; margin-top: 1rem;">
+    <mat-label>Search Tests</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Search by name or ID..." #input>
+    <mat-icon matSuffix>search</mat-icon>
+</mat-form-field>
+
 <div class="table-container mat-elevation-z8">
-    <table mat-table [dataSource]="tests">
+    <table mat-table [dataSource]="dataSource" class="w-full">
         <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef> ID </th>
             <td mat-cell *matCellDef="let test"> {{test.id}} </td>
@@ -22,10 +30,14 @@
 
         <ng-container matColumnDef="departmentId">
             <th mat-header-cell *matHeaderCellDef> Department ID </th>
-            <td mat-cell *matCellDef="let test"> {{test.department.name}} </td>
+            <td mat-cell *matCellDef="let test"> {{test.department?.name}} </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="hover:bg-gray-50"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        </tr>
     </table>
 </div>

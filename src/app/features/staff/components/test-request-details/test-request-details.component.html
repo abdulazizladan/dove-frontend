@@ -1,69 +1,85 @@
-<div class="p-6">
-    <button mat-button color="primary" routerLink="../../requests" class="mb-4">
+<div class="details-container">
+    <button mat-button color="primary" routerLink="../../requests" class="back-button">
         <mat-icon>arrow_back</mat-icon> Back to Requests
     </button>
 
     <div *ngIf="request$ | async as request; else loading">
-        <mat-card class="max-w-4xl mx-auto">
+        <mat-card class="details-card">
             <mat-card-header>
-                <div mat-card-avatar class="bg-primary/10 text-primary flex items-center justify-center rounded-full">
-                    <mat-icon>science</mat-icon>
-                </div>
-                <mat-card-title>Test Request Details</mat-card-title>
-                <mat-card-subtitle>ID: {{ request.id }}</mat-card-subtitle>
-                <div class="ml-auto">
-                    <span class="px-3 py-1 rounded-full text-xs font-bold text-white bg-gray-500"
-                        [class.bg-green-500]="request.status === 'COMPLETED'"
-                        [class.bg-blue-500]="request.status === 'IN_PROGRESS'"
-                        [class.bg-red-500]="request.status === 'CANCELLED'"
-                        [class.bg-yellow-500]="request.status === 'PENDING'">
-                        {{ request.status }}
-                    </span>
+                <div class="card-header-content">
+                    <div mat-card-avatar class="avatar">
+                        <mat-icon>science</mat-icon>
+                    </div>
+                    <div>
+                        <mat-card-title>Test Request Details</mat-card-title>
+                        <mat-card-subtitle>ID: {{ request.id }}</mat-card-subtitle>
+                    </div>
+                    <div class="spacer"></div>
+                    <div>
+                        <span class="status-badge" [class.status-completed]="request.status === 'COMPLETED'"
+                            [class.status-in-progress]="request.status === 'IN_PROGRESS'"
+                            [class.status-cancelled]="request.status === 'CANCELLED'"
+                            [class.status-pending]="request.status === 'PENDING'">
+                            {{ request.status }}
+                        </span>
+                    </div>
                 </div>
             </mat-card-header>
 
             <mat-divider></mat-divider>
 
             <mat-card-content class="pt-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="content-grid">
                     <!-- Patient Info -->
-                    <div>
-                        <h3 class="font-bold text-lg mb-4 text-gray-700">Patient Information</h3>
-                        <div class="space-y-2">
-                            <p><span class="font-semibold">Name:</span> {{ request.patientName || 'N/A' }}</p>
-                            <p><span class="font-semibold">Patient ID:</span> {{ request.patientId }}</p>
+                    <div class="info-group">
+                        <h3 class="section-title">Patient Information</h3>
+                        <div class="info-group">
+                            <p class="info-item"><span class="label">Name:</span> {{ ((request.patient?.name ||
+                                request.patientName) | titlecase) || 'N/A' }}</p>
+                            <p class="info-item"><span class="label">Patient ID:</span> {{ request.patientId }}</p>
                         </div>
                     </div>
 
                     <!-- Test Info -->
-                    <div>
-                        <h3 class="font-bold text-lg mb-4 text-gray-700">Test Information</h3>
-                        <div class="space-y-2">
-                            <p><span class="font-semibold">Test Name:</span> {{ request.test?.name || request.testId ||
-                                'N/A' }}</p>
-                            <p><span class="font-semibold">Test Code:</span> {{ request.test || 'N/A' }}</p>
-                            <p><span class="font-semibold">Priority:</span> {{ request.priority || 'N/A' }}</p>
+                    <div class="info-group">
+                        <h3 class="section-title">Test Information</h3>
+                        <div class="info-group">
+                            <p class="info-item"><span class="label">Test Name:</span> {{ request.test?.name ||
+                                request.testId || 'N/A' }}</p>
+                            <p class="info-item"><span class="label">Test Code:</span> {{ request.test || 'N/A' }}</p>
+                            <p class="info-item"><span class="label">Priority:</span> {{ request.priority || 'N/A' }}
+                            </p>
                         </div>
                     </div>
 
                     <!-- Financial Info -->
-                    <div>
-                        <h3 class="font-bold text-lg mb-4 text-gray-700">Financials</h3>
-                        <div class="space-y-2">
-                            <p><span class="font-semibold">Price:</span> {{ request.test?.price |
+                    <div class="info-group">
+                        <h3 class="section-title">Financials</h3>
+                        <div class="info-group">
+                            <p class="info-item"><span class="label">Price:</span> {{ request.test?.price |
                                 currency:'NGN':'symbol-narrow' }}</p>
-                            <p><span class="font-semibold">Discount:</span> {{ request.discount }}% <span
+                            <p class="info-item"><span class="label">Discount:</span> {{ request.discount }}% <span
                                     *ngIf="request.discount_reason">({{ request.discount_reason }})</span></p>
-                            <p><span class="font-semibold text-lg">Balance Due:</span> <span
-                                    class="text-lg font-bold text-red-600">{{ request.outstanding_balance |
-                                    currency:'NGN':'symbol-narrow' }}</span></p>
+                            <p class="info-item">
+                                <span class="label">Balance Due:</span>
+                                <span class="balance-amount">{{ request.outstanding_balance |
+                                    currency:'NGN':'symbol-narrow' }}</span>
+                            </p>
+
+                            <button mat-flat-button color="accent" (click)="openResultDialog(request)">
+                                <mat-icon>assignment_turned_in</mat-icon> Add Result
+                            </button>
+                            <button mat-flat-button color="primary" *ngIf="(request.outstanding_balance ?? 0) > 0"
+                                (click)="openPaymentDialog(request)">
+                                <mat-icon>payment</mat-icon> Add Payment
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="mt-8" *ngIf="request.notes">
-                    <h3 class="font-bold text-lg mb-2 text-gray-700">Clinical Notes</h3>
-                    <p class="p-4 bg-gray-50 rounded-lg text-gray-700">{{ request.notes }}</p>
+                <div class="notes-section" *ngIf="request.notes">
+                    <h3 class="section-title">Clinical Notes</h3>
+                    <p class="notes-box">{{ request.notes }}</p>
                 </div>
 
             </mat-card-content>
@@ -71,7 +87,7 @@
     </div>
 
     <ng-template #loading>
-        <div class="flex justify-center items-center py-20">
+        <div class="loading-container">
             <mat-spinner diameter="40"></mat-spinner>
         </div>
     </ng-template>

@@ -22,7 +22,8 @@ import { Observable } from 'rxjs';
         MatProgressSpinnerModule,
         MatDividerModule
     ],
-    templateUrl: './doctor-details.component.html'
+    templateUrl: './doctor-details.component.html',
+    styleUrls: ['./doctor-details.component.css']
 })
 export class DoctorDetailsComponent implements OnInit {
     private route = inject(ActivatedRoute);

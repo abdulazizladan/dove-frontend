@@ -46,4 +46,27 @@ export class RequestService {
             })
         );
     }
+
+    addPayment(id: string, amount: number, mode: string): Observable<any> {
+        this.store.setLoading(true);
+        return this.http.post<any>(`${this.apiUrl}/${id}/payment`, { amount, mode }).pipe(
+            tap({
+                next: () => {
+                    // Ideally we should update the store here, but for now getting the request again in the component works
+                    this.store.setLoading(false);
+                },
+                error: (err) => this.store.setError(err.message)
+            })
+        );
+    }
+
+    addResult(id: string, result: { summary: string, attachmentUrl?: string }): Observable<any> {
+        this.store.setLoading(true);
+        return this.http.post<any>(`${this.apiUrl}/${id}/result`, result).pipe(
+            tap({
+                next: () => this.store.setLoading(false),
+                error: (err) => this.store.setError(err.message)
+            })
+        );
+    }
 }

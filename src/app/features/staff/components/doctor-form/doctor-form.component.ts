@@ -6,6 +6,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { ReferringDoctorService } from '../../../../core/services/referring-doctor.service';
 import { Observable } from 'rxjs';
 
@@ -19,7 +21,9 @@ import { Observable } from 'rxjs';
         MatFormFieldModule,
         MatInputModule,
         MatButtonModule,
-        MatSelectModule
+        MatSelectModule,
+        MatCardModule,
+        MatIconModule
     ],
     templateUrl: './doctor-form.component.html'
 })

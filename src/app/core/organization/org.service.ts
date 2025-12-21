@@ -13,6 +13,12 @@ export class OrganizationService {
     private store = inject(OrgStore);
     private apiUrl = `${environment.baseUrl}/organization`;
 
+    createOrganization(org: Organization): Observable<Organization> {
+        return this.http.post<Organization>(this.apiUrl, org).pipe(
+            tap((updatedOrg) => this.store.setOrganization(updatedOrg))
+        );
+    }
+
     getOrganization(): Observable<Organization[]> {
         this.store.setLoading(true);
         return this.http.get<Organization[]>(this.apiUrl).pipe(

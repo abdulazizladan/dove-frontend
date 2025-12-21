@@ -15,7 +15,7 @@ export class TestService {
         return this.http.get<Test[]>(this.apiUrl);
     }
 
-    createTest(test: Test): Observable<Test> {
+    createTest(test: Partial<Test>): Observable<Test> {
         return this.http.post<Test>(this.apiUrl, test);
     }
 }

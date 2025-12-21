@@ -1,0 +1,53 @@
+.page-container {
+    padding: 1.5rem;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.page-title {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.actions-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.spacer-fixed {
+    flex: 0 0 100px;
+}
+
+.spacer-fill {
+    flex: 1 1 auto;
+}
+
+.tab-content {
+    margin-top: 1rem;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.table-container {
+    overflow: auto;
+}
+
+.clickable-row {
+    cursor: pointer;
+    transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.clickable-row:hover {
+    background-color: #f9fafb;
+    /* gray-50 */
+}

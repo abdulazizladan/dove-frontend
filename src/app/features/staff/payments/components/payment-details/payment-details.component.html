@@ -1,0 +1,61 @@
+<div class="details-container">
+    <button mat-button color="primary" routerLink="../" class="back-button">
+        <mat-icon>arrow_back</mat-icon> Back to Payments
+    </button>
+
+    <div *ngIf="payment$ | async as payment; else loading">
+        <mat-card class="details-card">
+            <mat-card-header>
+                <div mat-card-avatar class="avatar">
+                    <mat-icon>receipt</mat-icon>
+                </div>
+                <mat-card-title>Payment Details</mat-card-title>
+                <mat-card-subtitle>Ref: {{ payment.id }}</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-divider></mat-divider>
+
+            <mat-card-content class="content">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="label">Patient Name</span>
+                        <span class="value">{{ payment.patient_name | titlecase }}</span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="label">Test Name</span>
+                        <span class="value">{{ payment.test_name | titlecase }}</span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="label">Amount Paid</span>
+                        <span class="value amount-positive">{{ payment.amount | currency:'NGN':'symbol-narrow' }}</span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="label">Payment Date</span>
+                        <span class="value">{{ payment.payment_date | date:'medium' }}</span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="label">Payment Mode</span>
+                        <span class="value">{{ payment.mode | titlecase }}</span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="label">Outstanding Balance (After Payment)</span>
+                        <span class="value" [class.negative]="payment.outstanding_balance > 0">
+                            {{ payment.outstanding_balance | currency:'NGN':'symbol-narrow' }}
+                        </span>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <ng-template #loading>
+        <div class="loading-spinner">
+            <mat-spinner diameter="40"></mat-spinner>
+        </div>
+    </ng-template>
+</div>

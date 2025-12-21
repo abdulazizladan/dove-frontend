@@ -15,6 +15,8 @@ import { HospitalFormComponent } from '../hospital-form/hospital-form.component'
 import { DoctorFormComponent } from '../doctor-form/doctor-form.component';
 import { Observable } from 'rxjs';
 
+import { MatTabsModule } from '@angular/material/tabs';
+
 @Component({
     selector: 'app-doctors-list',
     standalone: true,
@@ -28,8 +30,10 @@ import { Observable } from 'rxjs';
         MatTableModule,
         MatFormFieldModule,
         MatInputModule,
-        MatDialogModule
+        MatDialogModule,
+        MatTabsModule
     ],
+    styleUrls: ['./doctors-list.component.css'],
     templateUrl: './doctors-list.component.html'
 })
 export class DoctorsListComponent implements OnInit {
@@ -37,10 +41,14 @@ export class DoctorsListComponent implements OnInit {
     private dialog = inject(MatDialog);
 
     displayedColumns: string[] = ['name', 'email', 'phone', 'hospital', 'actions'];
+    hospitalDisplayedColumns: string[] = ['name', 'address', 'phone', 'contact_person'];
+
     dataSource = new MatTableDataSource<ReferringDoctor>([]);
+    hospitalDataSource = new MatTableDataSource<any>([]);
 
     ngOnInit() {
         this.loadDoctors();
+        this.loadHospitals();
     }
 
     loadDoctors() {
@@ -49,14 +57,31 @@ export class DoctorsListComponent implements OnInit {
         });
     }
 
+    loadHospitals() {
+        this.doctorService.getHospitals().subscribe(hospitals => {
+            this.hospitalDataSource.data = hospitals;
+        });
+    }
+
     applyFilter(event: Event) {
         const filterValue = (event.target as HTMLInputElement).value;
         this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
+    applyHospitalFilter(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.hospitalDataSource.filter = filterValue.trim().toLowerCase();
+    }
+
     openHospitalDialog() {
-        this.dialog.open(HospitalFormComponent, {
+        const dialogRef = this.dialog.open(HospitalFormComponent, {
             width: '500px'
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this.loadHospitals();
+            }
         });
     }
 
