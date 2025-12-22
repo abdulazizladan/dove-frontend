@@ -8,11 +8,15 @@ import { RequestStatus } from '../../../../core/models/test-request.model';
 import { Patient } from '../../../../core/models/patient.model';
 import { Test } from '../../../../core/models/test.model';
 
+import { CommonModule } from '@angular/common';
+import { SharedModule } from '../../../../shared/shared-module';
+
 @Component({
     selector: 'app-test-request-form',
     templateUrl: './test-request-form.component.html',
     styleUrls: ['./test-request-form.component.scss'],
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, SharedModule]
 })
 export class TestRequestFormComponent implements OnInit {
     private fb = inject(FormBuilder);

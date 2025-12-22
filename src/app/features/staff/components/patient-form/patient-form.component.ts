@@ -4,11 +4,15 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { PatientService } from '../../../../core/patient/patient.service';
 import { Patient } from '../../../../core/models/patient.model';
 
+import { CommonModule } from '@angular/common';
+import { SharedModule } from '../../../../shared/shared-module';
+
 @Component({
     selector: 'app-patient-form',
     templateUrl: './patient-form.component.html',
     styleUrl: './patient-form.component.scss',
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, SharedModule]
 })
 export class PatientFormComponent {
     private fb = inject(FormBuilder);

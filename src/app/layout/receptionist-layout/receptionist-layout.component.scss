@@ -1,0 +1,38 @@
+.sidenav-container {
+    height: 100vh;
+}
+
+.sidenav {
+    width: 250px;
+    // .mat-toolbar { background: ... } 
+}
+
+.mat-toolbar.mat-primary {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.content {
+    padding: 20px;
+}
+
+// Ensure active link styling works with mat-list-item if needed
+mat-nav-list a {
+    border-radius: 3px !important;
+    margin: 4px 8px !important;
+}
+
+.active {
+    background: #3b82f6 !important;
+    color: white !important;
+
+    /* Force all child elements like icons and text spans to be white */
+    * {
+        color: white !important;
+    }
+}
+
+.active:hover {
+    background: #2563eb !important;
+}

@@ -19,13 +19,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
-    PatientListComponent,
-    PatientFormComponent,
-    TestRequestListComponent,
-    TestRequestFormComponent,
     TestsComponent,
-    TestFormComponent,
-    PaymentSummaryComponent
+    TestFormComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +29,12 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatSlideToggleModule,
     SharedModule,
     LayoutModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    PatientListComponent,
+    PatientFormComponent,
+    TestRequestListComponent,
+    TestRequestFormComponent,
+    PaymentSummaryComponent
   ]
 })
 export class StaffModule { }

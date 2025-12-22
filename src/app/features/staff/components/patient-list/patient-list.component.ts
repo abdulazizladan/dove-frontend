@@ -6,11 +6,15 @@ import { Patient } from '../../../../core/models/patient.model';
 import { MatDialog } from '@angular/material/dialog';
 import { PatientFormComponent } from '../patient-form/patient-form.component';
 
+import { CommonModule } from '@angular/common';
+import { SharedModule } from '../../../../shared/shared-module';
+
 @Component({
     selector: 'app-patient-list',
     templateUrl: './patient-list.component.html',
     styleUrl: './patient-list.component.scss',
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, SharedModule]
 })
 export class PatientListComponent implements OnInit {
     private patientService = inject(PatientService);

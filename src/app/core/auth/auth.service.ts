@@ -49,6 +49,8 @@ export class AuthService {
                     this.router.navigate(['/admin']);
                 } else if (role === UserRole.STAFF) {
                     this.router.navigate(['/staff']);
+                } else if (role === UserRole.RECEPTIONIST) {
+                    this.router.navigate(['/receptionist']);
                 } else {
                     this.router.navigate(['/']);
                 }

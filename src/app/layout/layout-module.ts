@@ -8,11 +8,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { AdminLayout } from './admin-layout/admin-layout';
 import { StaffLayout } from './staff-layout/staff-layout';
+import { ReceptionistLayout } from './receptionist-layout/receptionist-layout.component';
 
 @NgModule({
   declarations: [
     AdminLayout,
-    StaffLayout
+    StaffLayout,
+    ReceptionistLayout
   ],
   imports: [
     CommonModule,
@@ -25,7 +27,8 @@ import { StaffLayout } from './staff-layout/staff-layout';
   ],
   exports: [
     AdminLayout,
-    StaffLayout
+    StaffLayout,
+    ReceptionistLayout
   ]
 })
 export class LayoutModule { }

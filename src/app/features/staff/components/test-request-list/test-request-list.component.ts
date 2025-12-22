@@ -1,16 +1,22 @@
 import { Component, inject, OnInit, effect } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { RequestService } from '../../../../core/request/request.service';
 import { RequestStore } from '../../../../core/request/request-store';
 import { TestRequest, RequestStatus } from '../../../../core/models/test-request.model';
 import { TestRequestFormComponent } from '../test-request-form/test-request-form.component';
+import { PaymentSummaryComponent } from '../payment-summary/payment-summary.component';
+
+import { CommonModule } from '@angular/common';
+import { SharedModule } from '../../../../shared/shared-module';
 
 @Component({
     selector: 'app-test-request-list',
     templateUrl: './test-request-list.component.html',
     styleUrl: './test-request-list.component.scss',
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, SharedModule, TestRequestFormComponent, PaymentSummaryComponent, RouterModule]
 })
 export class TestRequestListComponent implements OnInit {
     private requestService = inject(RequestService);

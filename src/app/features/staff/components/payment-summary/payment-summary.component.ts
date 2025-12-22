@@ -2,9 +2,13 @@ import { Component, Input, OnChanges, OnInit, inject } from '@angular/core';
 import { TestRequest } from '../../../../core/models/test-request.model';
 import { PaymentService, PaymentListItem } from '../../../../core/payment/payment.service';
 
+import { CommonModule } from '@angular/common';
+import { SharedModule } from '../../../../shared/shared-module';
+
 @Component({
     selector: 'app-payment-summary',
-    standalone: false,
+    standalone: true,
+    imports: [CommonModule, SharedModule],
     templateUrl: './payment-summary.component.html',
     styleUrls: ['./payment-summary.component.css']
 })
