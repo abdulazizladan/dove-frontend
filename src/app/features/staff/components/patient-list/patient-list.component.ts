@@ -1,5 +1,6 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 import { PatientService } from '../../../../core/patient/patient.service';
 import { PatientStore } from '../../../../core/patient/patient-store';
 import { Patient } from '../../../../core/models/patient.model';
@@ -16,10 +17,12 @@ import { SharedModule } from '../../../../shared/shared-module';
     standalone: true,
     imports: [CommonModule, SharedModule]
 })
-export class PatientListComponent implements OnInit {
+export class PatientListComponent implements OnInit, AfterViewInit {
     private patientService = inject(PatientService);
     protected store = inject(PatientStore);
     private dialog = inject(MatDialog);
+
+    @ViewChild(MatPaginator) paginator!: MatPaginator;
 
     displayedColumns: string[] = ['name', 'date_of_birth', 'contact', 'gender', 'actions'];
     dataSource = new MatTableDataSource<Patient>([]);
@@ -28,6 +31,10 @@ export class PatientListComponent implements OnInit {
         this.patientService.getPatients().subscribe(patients => {
             this.dataSource.data = patients;
         });
+    }
+
+    ngAfterViewInit(): void {
+        this.dataSource.paginator = this.paginator;
     }
 
     openPatientDialog(patient?: Patient): void {

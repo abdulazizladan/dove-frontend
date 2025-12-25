@@ -1,10 +1,11 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TestService } from '../../../../core/test/test.service';
 import { Test } from '../../../../core/models/test.model';
 import { TestFormComponent } from '../test-form/test-form.component';
 
 import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
     selector: 'app-tests',
@@ -12,15 +13,21 @@ import { MatTableDataSource } from '@angular/material/table';
     styleUrls: ['./tests.component.scss'],
     standalone: false
 })
-export class TestsComponent implements OnInit {
+export class TestsComponent implements OnInit, AfterViewInit {
     private testService = inject(TestService);
     private dialog = inject(MatDialog);
 
-    dataSource = new MatTableDataSource<Test>([]);
+    @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+    dataSource = new MatTableDataSource<any>([]);
     displayedColumns: string[] = ['id', 'name', 'price', 'departmentId'];
 
     ngOnInit(): void {
         this.loadTests();
+    }
+
+    ngAfterViewInit(): void {
+        this.dataSource.paginator = this.paginator;
     }
 
     loadTests(): void {

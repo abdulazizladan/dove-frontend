@@ -32,27 +32,38 @@
         </mat-card>
     </ng-template>
 
-    <!-- Placeholder for Departments/Designations Management -->
-    <br>
-    <br>
-    <div fxLayout="row" fxLayoutAlign="space-between center">
-        <h3>Departments</h3>
-        <button mat-raised-button color="primary" (click)="openDepartmentDialog()">New Department</button>
-    </div>
+    <!-- Departments Management Section -->
+    <div class="departments-section">
+        <div class="section-header">
+            <h3 class="section-title">
+                <mat-icon class="section-icon">business</mat-icon>
+                Departments
+            </h3>
+            <button mat-flat-button color="primary" (click)="openDepartmentDialog()">
+                <mat-icon>add</mat-icon>
+                New Department
+            </button>
+        </div>
 
-    <div fxLayout="column" fxLayoutGap="8px">
-        <mat-card *ngFor="let dept of departments$ | async" class="department-card"
-            (click)="navigateToDepartment(dept.id)">
-            <mat-card-content>
-                <div fxLayout="row" fxLayoutAlign="space-between center">
-                    <span style="font-weight: 500;">{{ dept.name }}</span>
-                    <mat-icon color="primary">chevron_right</mat-icon>
+        <div class="departments-grid" *ngIf="((departments$ | async)?.length ?? 0) > 0; else noDepartments">
+            <div *ngFor="let dept of departments$ | async" class="department-card"
+                (click)="navigateToDepartment(dept.id)">
+                <div class="card-content">
+                    <div class="department-info">
+                        <mat-icon class="department-icon">folder</mat-icon>
+                        <h4 class="department-name">{{ dept.name }}</h4>
+                    </div>
+                    <mat-icon class="arrow-icon">arrow_forward</mat-icon>
                 </div>
-            </mat-card-content>
-        </mat-card>
-    </div>
+            </div>
+        </div>
 
-    <div *ngIf="(departments$ | async)?.length === 0">
-        <p>No departments found.</p>
+        <ng-template #noDepartments>
+            <div class="empty-state">
+                <mat-icon class="empty-icon">business_center</mat-icon>
+                <p class="empty-text">No departments found.</p>
+                <p class="empty-subtext">Create your first department to get started</p>
+            </div>
+        </ng-template>
     </div>
 </div>

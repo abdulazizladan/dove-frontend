@@ -43,6 +43,10 @@ export class OrganizationService {
         return this.http.get<Department[]>(`${environment.baseUrl}/departments`);
     }
 
+    getDepartmentById(id: string): Observable<Department> {
+        return this.http.get<Department>(`${environment.baseUrl}/departments/${id}`);
+    }
+
     addDepartment(department: { name: string; organizationId: string }): Observable<Department> {
         return this.http.post<Department>(`${environment.baseUrl}/departments`, department);
     }

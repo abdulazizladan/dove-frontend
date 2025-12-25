@@ -1,9 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { UserService } from '../../../../core/services/user.service';
 import { User } from '../../../../core/models/user.model';
 import { MatDialog } from '@angular/material/dialog';
 import { UserFormComponent } from '../user-form/user-form.component';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
@@ -13,11 +14,11 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
     styleUrl: './user-list.component.scss',
     standalone: false
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent implements OnInit, AfterViewInit {
     private userService = inject(UserService);
     private dialog = inject(MatDialog);
-    // ...
 
+    @ViewChild(MatPaginator) paginator!: MatPaginator;
 
     displayedColumns: string[] = ['full_name', 'email', 'role', 'isActive', 'created_at', 'actions'];
     dataSource = new MatTableDataSource<User>([]);
@@ -29,6 +30,10 @@ export class UserListComponent implements OnInit {
 
     ngOnInit(): void {
         this.loadUsers();
+    }
+
+    ngAfterViewInit(): void {
+        this.dataSource.paginator = this.paginator;
     }
 
     loadUsers(): void {

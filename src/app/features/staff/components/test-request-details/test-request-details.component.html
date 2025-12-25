@@ -31,55 +31,120 @@
             <mat-card-content class="pt-6">
                 <div class="content-grid">
                     <!-- Patient Info -->
-                    <div class="info-group">
-                        <h3 class="section-title">Patient Information</h3>
+                    <div class="info-section patient-section">
+                        <div class="section-header">
+                            <div class="section-icon patient-icon">
+                                <mat-icon>person</mat-icon>
+                            </div>
+                            <h3 class="section-title">Patient Information</h3>
+                        </div>
                         <div class="info-group">
-                            <p class="info-item"><span class="label">Name:</span> {{ ((request.patient?.name ||
-                                request.patientName) | titlecase) || 'N/A' }}</p>
-                            <p class="info-item"><span class="label">Patient ID:</span> {{ request.patientId }}</p>
+                            <div class="info-item">
+                                <mat-icon class="item-icon">badge</mat-icon>
+                                <span class="label">Name:</span>
+                                <span class="value">{{ ((request.patient?.name || request.patientName) | titlecase) ||
+                                    'N/A' }}</span>
+                            </div>
+                            <div class="info-item">
+                                <mat-icon class="item-icon">fingerprint</mat-icon>
+                                <span class="label">Patient ID:</span>
+                                <span class="value">{{ request.patientId }}</span>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Test Info -->
-                    <div class="info-group">
-                        <h3 class="section-title">Test Information</h3>
+                    <div class="info-section test-section">
+                        <div class="section-header">
+                            <div class="section-icon test-icon">
+                                <mat-icon>biotech</mat-icon>
+                            </div>
+                            <h3 class="section-title">Test Information</h3>
+                        </div>
                         <div class="info-group">
-                            <p class="info-item"><span class="label">Test Name:</span> {{ request.test?.name ||
-                                request.testId || 'N/A' }}</p>
-                            <p class="info-item"><span class="label">Test Code:</span> {{ request.test || 'N/A' }}</p>
-                            <p class="info-item"><span class="label">Priority:</span> {{ request.priority || 'N/A' }}
-                            </p>
+                            <div class="info-item">
+                                <mat-icon class="item-icon">science</mat-icon>
+                                <span class="label">Test Name:</span>
+                                <span class="value">{{ request.test?.name || request.testId || 'N/A' }}</span>
+                            </div>
+                            <div class="info-item">
+                                <mat-icon class="item-icon">qr_code</mat-icon>
+                                <span class="label">Test Code:</span>
+                                <span class="value">{{ request.test || 'N/A' }}</span>
+                            </div>
+                            <div class="info-item">
+                                <mat-icon class="item-icon">low_priority</mat-icon>
+                                <span class="label">Priority:</span>
+                                <span class="value priority-badge" [class.high]="request.priority === 'HIGH'"
+                                    [class.medium]="request.priority === 'MEDIUM'"
+                                    [class.low]="request.priority === 'LOW'">
+                                    {{ request.priority || 'N/A' }}
+                                </span>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Financial Info -->
-                    <div class="info-group">
-                        <h3 class="section-title">Financials</h3>
-                        <div class="info-group">
-                            <p class="info-item"><span class="label">Price:</span> {{ request.test?.price |
-                                currency:'NGN':'symbol-narrow' }}</p>
-                            <p class="info-item"><span class="label">Discount:</span> {{ request.discount }}% <span
-                                    *ngIf="request.discount_reason">({{ request.discount_reason }})</span></p>
-                            <p class="info-item">
-                                <span class="label">Balance Due:</span>
-                                <span class="balance-amount">{{ request.outstanding_balance |
-                                    currency:'NGN':'symbol-narrow' }}</span>
-                            </p>
+                    <div class="info-section financial-section full-width">
+                        <div class="section-header">
+                            <div class="section-icon financial-icon">
+                                <mat-icon>account_balance_wallet</mat-icon>
+                            </div>
+                            <h3 class="section-title">Financial Details</h3>
+                        </div>
+                        <div class="financial-grid">
+                            <div class="financial-card">
+                                <mat-icon class="financial-card-icon">attach_money</mat-icon>
+                                <div class="financial-card-content">
+                                    <span class="financial-label">Price</span>
+                                    <span class="financial-value">{{ request.test?.price |
+                                        currency:'NGN':'symbol-narrow' }}</span>
+                                </div>
+                            </div>
+                            <div class="financial-card">
+                                <mat-icon class="financial-card-icon">percent</mat-icon>
+                                <div class="financial-card-content">
+                                    <span class="financial-label">Discount</span>
+                                    <span class="financial-value">{{ request.discount }}%</span>
+                                    <span class="financial-note" *ngIf="request.discount_reason">({{
+                                        request.discount_reason }})</span>
+                                </div>
+                            </div>
+                            <div class="financial-card balance-card">
+                                <mat-icon class="financial-card-icon">account_balance</mat-icon>
+                                <div class="financial-card-content">
+                                    <span class="financial-label">Outstanding Balance</span>
+                                    <span class="balance-amount">{{ request.outstanding_balance |
+                                        currency:'NGN':'symbol-narrow' }}</span>
+                                </div>
+                            </div>
+                        </div>
 
-                            <button mat-flat-button color="accent" (click)="openResultDialog(request)">
+                        <div class="action-buttons">
+                            <button mat-flat-button color="accent" class="action-btn result-btn"
+                                (click)="openResultDialog(request)">
                                 <mat-icon>assignment_turned_in</mat-icon> Add Result
                             </button>
-                            <button mat-flat-button color="primary" *ngIf="(request.outstanding_balance ?? 0) > 0"
-                                (click)="openPaymentDialog(request)">
+                            <button mat-flat-button color="primary" class="action-btn payment-btn"
+                                *ngIf="(request.outstanding_balance ?? 0) > 0" (click)="openPaymentDialog(request)">
                                 <mat-icon>payment</mat-icon> Add Payment
                             </button>
                         </div>
                     </div>
                 </div>
 
+
                 <div class="notes-section" *ngIf="request.notes">
-                    <h3 class="section-title">Clinical Notes</h3>
-                    <p class="notes-box">{{ request.notes }}</p>
+                    <div class="section-header">
+                        <div class="section-icon notes-icon">
+                            <mat-icon>description</mat-icon>
+                        </div>
+                        <h3 class="section-title">Clinical Notes</h3>
+                    </div>
+                    <div class="notes-box">
+                        <mat-icon class="notes-icon-inline">sticky_note_2</mat-icon>
+                        <p class="notes-content">{{ request.notes }}</p>
+                    </div>
                 </div>
 
             </mat-card-content>

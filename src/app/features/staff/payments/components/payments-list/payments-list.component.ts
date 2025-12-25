@@ -1,6 +1,7 @@
 
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 import { PaymentService, PaymentGraphItem, PaymentListItem } from '../../../../../core/payment/payment.service';
 import { firstValueFrom, forkJoin } from 'rxjs';
 import { ChartConfiguration, ChartType } from 'chart.js';
@@ -11,8 +12,10 @@ import { ChartConfiguration, ChartType } from 'chart.js';
     styleUrls: ['./payments-list.component.css'],
     standalone: false
 })
-export class PaymentsListComponent implements OnInit {
+export class PaymentsListComponent implements OnInit, AfterViewInit {
     private paymentService = inject(PaymentService);
+
+    @ViewChild(MatPaginator) paginator!: MatPaginator;
 
     dataSource = new MatTableDataSource<PaymentListItem>([]);
     displayedColumns: string[] = ['date', 'patient', 'test', 'amount', 'mode', 'status'];
@@ -70,6 +73,10 @@ export class PaymentsListComponent implements OnInit {
 
     ngOnInit() {
         this.loadData();
+    }
+
+    ngAfterViewInit(): void {
+        this.dataSource.paginator = this.paginator;
     }
 
     async loadData() {

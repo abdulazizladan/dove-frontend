@@ -1,5 +1,38 @@
 <div class="container" fxLayout="column" fxLayoutGap="20px">
-    <app-payment-summary [requests]="store.requests() || []"></app-payment-summary>
+    <!-- Payment Summary Cards -->
+    <div class="summary-cards">
+        <div class="summary-card total">
+            <div class="card-icon">
+                <mat-icon>assignment</mat-icon>
+            </div>
+            <div class="card-content">
+                <div class="card-label">Total Requests</div>
+                <div class="card-value">{{totalRequests}}</div>
+            </div>
+        </div>
+
+        <div class="summary-card paid">
+            <div class="card-icon">
+                <mat-icon>check_circle</mat-icon>
+            </div>
+            <div class="card-content">
+                <div class="card-label">Paid</div>
+                <div class="card-value">{{paidRequests}}</div>
+                <div class="card-percentage">{{paidPercentage | number:'1.0-1'}}%</div>
+            </div>
+        </div>
+
+        <div class="summary-card unpaid">
+            <div class="card-icon">
+                <mat-icon>pending</mat-icon>
+            </div>
+            <div class="card-content">
+                <div class="card-label">Unpaid</div>
+                <div class="card-value">{{unpaidRequests}}</div>
+                <div class="card-percentage">{{unpaidPercentage | number:'1.0-1'}}%</div>
+            </div>
+        </div>
+    </div>
 
     <div fxLayout="row" fxLayoutAlign="space-between center">
         <h2>Test Requests</h2>
@@ -8,11 +41,23 @@
         </button>
     </div>
 
+
     <mat-form-field appearance="outline" class="w-full" style="width: 100%;">
         <mat-label>Search Requests</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Search by patient, test, or status..." #input>
         <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
+
+    <mat-form-field appearance="outline" style="width: 300px;">
+        <mat-label>Filter by Payment Status</mat-label>
+        <mat-select [value]="paymentFilter" (selectionChange)="onPaymentFilterChange($event.value)">
+            <mat-option value="all">All Requests</mat-option>
+            <mat-option value="paid">Paid (Balance = 0)</mat-option>
+            <mat-option value="unpaid">Unpaid (Balance > 0)</mat-option>
+        </mat-select>
+        <mat-icon matSuffix>filter_list</mat-icon>
+    </mat-form-field>
+
 
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
         <ng-container matColumnDef="patientName">
@@ -38,6 +83,16 @@
         <ng-container matColumnDef="outstanding_balance">
             <th mat-header-cell *matHeaderCellDef> Balance </th>
             <td mat-cell *matCellDef="let req"> {{req.outstanding_balance | currency:'NGN':'symbol-narrow'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="paymentStatus">
+            <th mat-header-cell *matHeaderCellDef> Payment Status </th>
+            <td mat-cell *matCellDef="let req">
+                <span class="payment-status" [class.paid]="(req.outstanding_balance ?? 0) === 0"
+                    [class.pending]="(req.outstanding_balance ?? 0) > 0">
+                    {{ (req.outstanding_balance ?? 0) === 0 ? 'PAID' : 'PENDING' }}
+                </span>
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="status">
@@ -71,5 +126,8 @@
             <td class="mat-cell" colspan="8">No requests matching the filter "{{input.value}}"</td>
         </tr>
     </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 50]" [pageSize]="10" showFirstLastButtons
+        aria-label="Select page of requests">
+    </mat-paginator>
     <mat-progress-bar mode="indeterminate" *ngIf="store.isLoading()"></mat-progress-bar>
 </div>

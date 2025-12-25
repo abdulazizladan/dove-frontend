@@ -1,0 +1,138 @@
+<div class="department-details-container">
+    <button mat-button class="back-button" routerLink="../..">
+        <mat-icon>arrow_back</mat-icon> Back to Organization
+    </button>
+
+    <div *ngIf="department$ | async as department; else loading">
+        <!-- Header Card -->
+        <mat-card class="header-card">
+            <div class="header-content">
+                <div class="department-icon">
+                    <mat-icon>business</mat-icon>
+                </div>
+                <div class="header-info">
+                    <h1>{{department.name}}</h1>
+                    <p class="department-id">ID: {{department.id}}</p>
+                </div>
+            </div>
+        </mat-card>
+
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card tests">
+                <div class="stat-icon">
+                    <mat-icon>science</mat-icon>
+                </div>
+                <div class="stat-content">
+                    <p class="stat-label">Total Tests</p>
+                    <p class="stat-value">{{testsCount}}</p>
+                </div>
+            </div>
+
+            <div class="stat-card requests">
+                <div class="stat-icon">
+                    <mat-icon>assignment</mat-icon>
+                </div>
+                <div class="stat-content">
+                    <p class="stat-label">Test Requests</p>
+                    <p class="stat-value">{{requestsCount}}</p>
+                </div>
+            </div>
+
+            <div class="stat-card revenue">
+                <div class="stat-icon">
+                    <mat-icon>attach_money</mat-icon>
+                </div>
+                <div class="stat-content">
+                    <p class="stat-label">Monthly Revenue</p>
+                    <p class="stat-value">{{monthlyRevenue | currency:'NGN':'symbol-narrow'}}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Department Information -->
+        <mat-card class="info-card">
+            <mat-card-header>
+                <div class="section-header">
+                    <mat-icon class="section-icon">info</mat-icon>
+                    <mat-card-title>Department Information</mat-card-title>
+                </div>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <mat-icon class="item-icon">label</mat-icon>
+                        <div class="item-content">
+                            <span class="item-label">Department Name</span>
+                            <span class="item-value">{{department.name}}</span>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <mat-icon class="item-icon">badge</mat-icon>
+                        <div class="item-content">
+                            <span class="item-label">Department Code</span>
+                            <span class="item-value">{{department.id}}</span>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <mat-icon class="item-icon">calendar_today</mat-icon>
+                        <div class="item-content">
+                            <span class="item-label">Created Date</span>
+                            <span class="item-value">{{department.created_at | date:'medium'}}</span>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <mat-icon class="item-icon">update</mat-icon>
+                        <div class="item-content">
+                            <span class="item-label">Last Updated</span>
+                            <span class="item-value">{{department.updated_at | date:'medium'}}</span>
+                        </div>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <!-- Tests List -->
+        <mat-card class="tests-card">
+            <mat-card-header>
+                <div class="section-header">
+                    <mat-icon class="section-icon">science</mat-icon>
+                    <mat-card-title>Available Tests</mat-card-title>
+                </div>
+            </mat-card-header>
+            <mat-card-content>
+                <div *ngIf="tests$ | async as tests; else noTests" class="tests-list">
+                    <div *ngFor="let test of tests" class="test-item">
+                        <div class="test-icon">
+                            <mat-icon>biotech</mat-icon>
+                        </div>
+                        <div class="test-info">
+                            <h3>{{test.name}}</h3>
+                            <p class="test-id">Test ID: {{test.id}}</p>
+                        </div>
+                        <div class="test-price">
+                            <span class="price-label">Price</span>
+                            <span class="price-value">{{test.price | currency:'NGN':'symbol-narrow'}}</span>
+                        </div>
+                    </div>
+                </div>
+                <ng-template #noTests>
+                    <div class="empty-state">
+                        <mat-icon>science_off</mat-icon>
+                        <p>No tests available in this department</p>
+                    </div>
+                </ng-template>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <ng-template #loading>
+        <div class="loading-container">
+            <mat-spinner diameter="50"></mat-spinner>
+            <p>Loading department details...</p>
+        </div>
+    </ng-template>
+</div>

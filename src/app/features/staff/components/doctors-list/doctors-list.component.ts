@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ViewChild, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -31,14 +32,18 @@ import { MatTabsModule } from '@angular/material/tabs';
         MatFormFieldModule,
         MatInputModule,
         MatDialogModule,
-        MatTabsModule
+        MatTabsModule,
+        MatPaginatorModule
     ],
     styleUrls: ['./doctors-list.component.css'],
     templateUrl: './doctors-list.component.html'
 })
-export class DoctorsListComponent implements OnInit {
+export class DoctorsListComponent implements OnInit, AfterViewInit {
     private doctorService = inject(ReferringDoctorService);
     private dialog = inject(MatDialog);
+
+    @ViewChild('doctorPaginator') doctorPaginator!: MatPaginator;
+    @ViewChild('hospitalPaginator') hospitalPaginator!: MatPaginator;
 
     displayedColumns: string[] = ['name', 'email', 'phone', 'hospital', 'actions'];
     hospitalDisplayedColumns: string[] = ['name', 'address', 'phone', 'contact_person'];
@@ -49,6 +54,11 @@ export class DoctorsListComponent implements OnInit {
     ngOnInit() {
         this.loadDoctors();
         this.loadHospitals();
+    }
+
+    ngAfterViewInit(): void {
+        this.dataSource.paginator = this.doctorPaginator;
+        this.hospitalDataSource.paginator = this.hospitalPaginator;
     }
 
     loadDoctors() {

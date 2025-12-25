@@ -48,5 +48,8 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 50]" [pageSize]="10" showFirstLastButtons
+        aria-label="Select page of patients">
+    </mat-paginator>
     <mat-progress-bar mode="indeterminate" *ngIf="store.isLoading()"></mat-progress-bar>
 </div>
