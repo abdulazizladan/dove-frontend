@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Add Test Result</h2>
+<h2 mat-dialog-title>{{ isViewMode ? 'Test Result' : 'Add Test Result' }}</h2>
 <mat-dialog-content>
     <form [formGroup]="form" fxLayout="column" fxLayoutGap="16px">
         <mat-form-field appearance="outline" class="w-full" style="width: 100%;">
@@ -14,10 +14,25 @@
             <mat-icon matSuffix>link</mat-icon>
             <mat-error *ngIf="form.get('attachmentUrl')?.hasError('pattern')">Please enter a valid URL</mat-error>
         </mat-form-field>
+
+        <!-- Display uploader information in view mode -->
+        <div *ngIf="isViewMode && existingResult"
+            style="margin-top: 16px; padding: 12px; background-color: #f5f5f5; border-radius: 4px;">
+            <div style="margin-bottom: 8px;">
+                <strong>Uploaded By:</strong> {{ uploaderName }}
+            </div>
+            <div *ngIf="existingResult.created_at" style="margin-bottom: 8px;">
+                <strong>Created:</strong> {{ existingResult.created_at | date:'medium' }}
+            </div>
+            <div *ngIf="existingResult.updated_at">
+                <strong>Updated:</strong> {{ existingResult.updated_at | date:'medium' }}
+            </div>
+        </div>
     </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-    <button mat-button (click)="onCancel()">Cancel</button>
-    <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="form.invalid">Submit Result</button>
+    <button mat-button (click)="onCancel()">{{ isViewMode ? 'Close' : 'Cancel' }}</button>
+    <button *ngIf="!isViewMode" mat-flat-button color="primary" (click)="onSubmit()" [disabled]="form.invalid">Submit
+        Result</button>
 </mat-dialog-actions>

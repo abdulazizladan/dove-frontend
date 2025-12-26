@@ -121,7 +121,11 @@
                         </div>
 
                         <div class="action-buttons">
-                            <button mat-flat-button color="accent" class="action-btn result-btn"
+                            <button mat-flat-button color="primary" class="action-btn view-result-btn"
+                                *ngIf="request.result" (click)="openViewResultDialog(request)">
+                                <mat-icon>visibility</mat-icon> View Result
+                            </button>
+                            <button mat-flat-button color="accent" class="action-btn result-btn" *ngIf="!request.result"
                                 (click)="openResultDialog(request)">
                                 <mat-icon>assignment_turned_in</mat-icon> Add Result
                             </button>

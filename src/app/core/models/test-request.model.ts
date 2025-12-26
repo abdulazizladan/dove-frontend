@@ -1,5 +1,6 @@
 import { Test } from './test.model';
 import { Patient } from './patient.model';
+import { TestResult } from '../../features/staff/components/test-request-result/test-request-result.model';
 
 export enum RequestStatus {
     PENDING = 'PENDING',
@@ -21,6 +22,7 @@ export interface TestRequest {
     discount_reason?: string;
     outstanding_balance?: number;
     payments?: any[]; // Placeholder for payments array
+    result?: TestResult; // Test result if available
     notes?: string;
     created_at: string; // Use string for ISO dates from JSON
     updated_at: string;

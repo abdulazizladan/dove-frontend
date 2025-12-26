@@ -1,0 +1,75 @@
+<h2 mat-dialog-title>Test Result</h2>
+
+<mat-dialog-content>
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="loading-container">
+        <mat-spinner diameter="40"></mat-spinner>
+        <p class="loading-text">Loading test result...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error && !isLoading" class="error-container">
+        <mat-icon class="error-icon">error_outline</mat-icon>
+        <p class="error-text">{{ error }}</p>
+    </div>
+
+    <!-- Result Display -->
+    <div *ngIf="testResult && !isLoading && !error" class="result-container">
+        <!-- Summary Section -->
+        <mat-card class="info-card">
+            <div class="card-header">
+                <mat-icon class="section-icon">assignment</mat-icon>
+                <h3 class="section-title">Result Summary</h3>
+            </div>
+            <div class="card-content">
+                <p class="summary-text">{{ testResult.summary }}</p>
+            </div>
+        </mat-card>
+
+        <!-- Attachment Section -->
+        <mat-card class="info-card" *ngIf="testResult.attachment">
+            <div class="card-header">
+                <mat-icon class="section-icon">attach_file</mat-icon>
+                <h3 class="section-title">Attachment</h3>
+            </div>
+            <div class="card-content">
+                <a [href]="testResult.attachment" target="_blank" class="attachment-link">
+                    <mat-icon>file_download</mat-icon>
+                    <span>View/Download Attachment</span>
+                </a>
+            </div>
+        </mat-card>
+
+        <!-- Uploader Information -->
+        <mat-card class="info-card uploader-card">
+            <div class="card-header">
+                <mat-icon class="section-icon">person</mat-icon>
+                <h3 class="section-title">Uploaded By</h3>
+            </div>
+            <div class="card-content">
+                <div class="info-row">
+                    <mat-icon class="info-icon">badge</mat-icon>
+                    <span class="info-label">Name:</span>
+                    <span class="info-value">{{ uploaderName | titlecase }}</span>
+                </div>
+                <div class="info-row" *ngIf="testResult.created_at">
+                    <mat-icon class="info-icon">event</mat-icon>
+                    <span class="info-label">Created:</span>
+                    <span class="info-value">{{ testResult.created_at | date:'medium' }}</span>
+                </div>
+                <div class="info-row" *ngIf="testResult.updated_at">
+                    <mat-icon class="info-icon">update</mat-icon>
+                    <span class="info-label">Updated:</span>
+                    <span class="info-value">{{ testResult.updated_at | date:'medium' }}</span>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-flat-button color="primary" (click)="onClose()">
+        <mat-icon>close</mat-icon>
+        Close
+    </button>
+</mat-dialog-actions>

@@ -14,6 +14,7 @@ import { PaymentFormComponent } from '../payment-form/payment-form.component';
 import { CreatePaymentDto } from '../../../../core/models/payment.model';
 import { TestRequestResultComponent } from '../test-request-result/test-request-result.component';
 import { TestResultData } from '../test-request-result/test-request-result.model';
+import { ViewTestResultComponent } from '../view-test-result/view-test-result.component';
 
 @Component({
     selector: 'app-test-request-details',
@@ -84,6 +85,13 @@ export class TestRequestDetailsComponent implements OnInit {
                     }
                 });
             }
+        });
+    }
+
+    openViewResultDialog(request: TestRequest) {
+        this.dialog.open(ViewTestResultComponent, {
+            width: '600px',
+            data: { testRequestId: request.id }
         });
     }
 
