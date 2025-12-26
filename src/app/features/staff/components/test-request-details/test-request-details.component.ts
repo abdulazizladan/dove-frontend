@@ -8,7 +8,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RequestService } from '../../../../core/request/request.service';
 import { TestRequest, RequestStatus } from '../../../../core/models/test-request.model';
-import { Observable, switchMap, Subject } from 'rxjs';
+import { Observable, switchMap, Subject, startWith } from 'rxjs';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { PaymentFormComponent } from '../payment-form/payment-form.component';
 import { CreatePaymentDto } from '../../../../core/models/payment.model';
@@ -44,12 +44,9 @@ export class TestRequestDetailsComponent implements OnInit {
         const id = this.route.snapshot.paramMap.get('id');
         if (id) {
             this.request$ = this.refreshTrigger$.pipe(
-                // startWith(undefined), // trigger initial load - simpler to just merge or just define request$ differently
-                switchMap(() => this.requestService.getRequestById(id!)) // using id! because we check if (id)
+                startWith(undefined), // Trigger initial load automatically
+                switchMap(() => this.requestService.getRequestById(id!))
             );
-
-            // Initial load
-            this.request$ = this.requestService.getRequestById(id);
         }
     }
 
@@ -62,8 +59,8 @@ export class TestRequestDetailsComponent implements OnInit {
             if (result) {
                 this.requestService.addPayment(request.id, result.amount, result.mode).subscribe({
                     next: () => {
-                        // Reload data
-                        this.request$ = this.requestService.getRequestById(request.id);
+                        // Trigger refresh
+                        this.refreshTrigger$.next();
                     }
                 });
             }
@@ -80,7 +77,8 @@ export class TestRequestDetailsComponent implements OnInit {
                 this.requestService.addResult(request.id, result).subscribe({
                     next: () => {
                         this.requestService.updateStatus(request.id, RequestStatus.COMPLETED).subscribe(() => {
-                            this.request$ = this.requestService.getRequestById(request.id);
+                            // Trigger refresh to show new result and updated status
+                            this.refreshTrigger$.next();
                         });
                     }
                 });

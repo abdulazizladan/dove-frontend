@@ -1,12 +1,25 @@
 <div class="container">
     <h2>Organization Settings</h2>
 
-    <mat-card *ngIf="store.organization() as org; else createForm">
-        <mat-card-header>
-            <mat-card-title>{{ org.name }}</mat-card-title>
-            <mat-card-subtitle>{{ org.address }}</mat-card-subtitle>
-        </mat-card-header>
-    </mat-card>
+    <!-- Organization Header Section -->
+    <div class="org-header" *ngIf="store.organization() as org; else createForm">
+        <div class="org-logo-container">
+            <div class="org-logo">
+                <mat-icon class="logo-icon">business</mat-icon>
+            </div>
+        </div>
+        <div class="org-info-card">
+            <div class="org-info-header">
+                <div>
+                    <h3 class="org-name">{{ org.name }}</h3>
+                    <div class="org-location">
+                        <mat-icon class="location-icon">location_on</mat-icon>
+                        <span class="location-text">{{ org.address }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <ng-template #createForm>
         <mat-card>
